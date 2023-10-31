@@ -6,8 +6,8 @@ class CreateItems < ActiveRecord::Migration[7.0]
       t.string :description
       t.integer :unit_price
       t.references :merchant, null: false, foreign_key: true
-      t.string :created_at
-      t.string :updated_at
+
+      t.timestamps
     end
   end
 end
