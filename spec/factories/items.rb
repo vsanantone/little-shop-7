@@ -5,7 +5,7 @@ FactoryBot.define do
     description { Faker::Commerce.material }
     unit_price { Faker::Commerce.price(range: 0..10.0, as_string: true) }
     status { 1 }
-    created_at { "2023-09-11 16:40:54" }
-    updated_at { "2023-09-11 16:40:54" }
+    created_at { "2023-10-31 16:40:54" }
+    updated_at { "2023-10-31 16:40:54" }
   end
 end
