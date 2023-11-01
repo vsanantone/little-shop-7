@@ -6,26 +6,26 @@ RSpec.describe "Admin Dashboard" do
     # 19. Admin Dashboard
     # As an admin,
     # When I visit the admin dashboard (/admin)
-    visit "/admins" #admin_path
     # Then I see a header indicating that I am on the admin dashboard
+    visit "/admin"
     expect(page).to have_content("Welcome to the Admin Dashboard")
   end
- it "display a link to the Admin Merchants & Invoice Index page" do
+  it "display a link to the Admin Merchants & Invoice Index page" do
     # 20. Admin Dashboard Links
     # As an admin,
     # When I visit the admin dashboard (/admin)
-    visit "/admins" #admin_path
+    visit "/admin"
 
     # Then I see a link to the admin merchants index (/admin/merchants)
     expect(page).to have_link("Admin Merchant's Index")
     click_link("Admin Merchant's Index")
-    expect(current_path).to eq("/admins/merchants")
+    expect(current_path).to eq("/admin/merchants")
     expect(page).to have_content("Admin Merchants")
     # And I see a link to the admin invoices index (/admin/invoices)
-    visit "/admins" #admin_path
+    visit "/admin"
     expect(page).to have_link("Admin Invoice's Index")
     click_link("Admin Invoice's Index")
-    expect(current_path).to eq("/admins/invoices")
+    expect(current_path).to eq("/admin/invoices")
     expect(page).to have_content("Admin Invoices")
 
   end
