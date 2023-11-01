@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Customer, type: :model do
+RSpec.describe Merchant, type: :model do
   before(:each) do
 
   end
