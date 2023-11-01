@@ -13,8 +13,4 @@ Rails.application.routes.draw do
     resources :invoices
     get "", to: "dashboard#index", as: "dashboard"
   end
-
-  # get "/admins", to: "admins#index"
-  # get "/admins/merchants", to: "admin_merchants#index"
-  # get "/admins/invoices", to: "admin_invoices#index"
 end
