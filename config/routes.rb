@@ -8,7 +8,13 @@ Rails.application.routes.draw do
     get 'dashboard', on: :member
   end
   
-  get "/admins", to: "admins#index"
-  get "/admins/merchants", to: "admin_merchants#index"
-  get "/admins/invoices", to: "admin_invoices#index"
+  namespace :admin do
+    resources :merchants
+    resources :invoices
+    get "", to: "dashboard#index", as: "dashboard"
+  end
+
+  # get "/admins", to: "admins#index"
+  # get "/admins/merchants", to: "admin_merchants#index"
+  # get "/admins/invoices", to: "admin_invoices#index"
 end
