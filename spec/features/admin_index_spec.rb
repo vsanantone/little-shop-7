@@ -66,7 +66,7 @@ RSpec.describe "Admin Dashboard" do
 
   it "Dashboard Statistics - Top Customer" do
     visit "/admin"
-    
+    save_and_open_page
     expect(page).to have_content("Welcome to the Admin Dashboard")
     within("div#statistics") do
       expect(page).to have_content("Top Customers")
