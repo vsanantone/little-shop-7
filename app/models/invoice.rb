@@ -7,4 +7,8 @@ class Invoice < ApplicationRecord
   validates :status, presence: true
 
   enum:status, ["in progress", "completed", "cancelled"]
+
+  def self.incomplete_invoices
+    Invoice.select("invoices.id").where("status=0").group("invoices.id")
+  end
 end
