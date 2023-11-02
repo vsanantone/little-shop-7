@@ -16,6 +16,6 @@
 <div id="invoices">
   <h3>Incomplete Invoices</h3>
   <% Invoice.incomplete_invoices.each do |invoice| %>
-    <%= link_to "Invoice ID: #{invoice.id}", "/admin/invoices/#{invoice.id}" %> <br>
+    <li><%= link_to "Invoice ID: #{invoice.id}", "/admin/invoices/#{invoice.id}" %></li> <br>
   <% end %>
 </div>
