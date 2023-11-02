@@ -1,1 +1,8 @@
-<h1><%= @merchant.name %></h1>
+<%= @merchant.name %>
+<%= link_to "My Items", "/merchants/#{@merchant.id}/items", method: :get %>
+<%= link_to "My Invoices", "/merchants/#{@merchant.id}/invoices", method: :get %>
+<p>Top 5 Customers:</p>
+<% @top_5_customers.each do |customer| %>
+<p><%= "#{customer.first_name} #{customer.last_name}" %> Transactions: <%= customer.count %></p>
+<% end %>
+
