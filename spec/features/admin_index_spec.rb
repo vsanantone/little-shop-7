@@ -3,20 +3,24 @@ require 'rails_helper'
 RSpec.describe "Admin Dashboard" do
   before :each do
     @customer1 = Customer.create!(first_name: "John", last_name: "Doe")
-    @invoice1 = Invoice.create!(status: 1, customer_id: "#{@customer1.id}")
-    @transaction1 = Transaction.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1, invoice_id: "#{@invoice1.id}")
-    @transaction2 = Transaction.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1, invoice_id: "#{@invoice1.id}")
-    @transaction3 = Transaction.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1, invoice_id: "#{@invoice1.id}")
-    @transaction4 = Transaction.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1, invoice_id: "#{@invoice1.id}")
+    @invoice1 = @customer1.invoices.create!(status: 1)
+    @transaction1 = @invoice1.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1, invoice_id: "#{@invoice1.id}")
+    @transaction2 = @invoice1.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1, invoice_id: "#{@invoice1.id}")
+    @transaction3 = @invoice1.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1, invoice_id: "#{@invoice1.id}")
+    @transaction4 = @invoice1.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1, invoice_id: "#{@invoice1.id}")
 
     @customer2 = Customer.create!(first_name: "Mary", last_name: "Jane")
     @invoice2 = @customer2.invoices.create!(status: 1)
+    @invoice2 = @customer2.invoices.create!(status: 2)
     @transaction5 = @invoice2.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction6 = @invoice2.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction7 = @invoice2.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
 
     @customer3 = Customer.create!(first_name: "Johnny", last_name: "Bowflex")
     @invoice3 = @customer3.invoices.create!(status:1)
+    @invoice3 = @customer3.invoices.create!(status:0)
+    @invoice3 = @customer3.invoices.create!(status:0)
+    @invoice3 = @customer3.invoices.create!(status:2)
     @transaction8 = @invoice3.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction9 = @invoice3.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction10 = @invoice3.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
@@ -25,6 +29,8 @@ RSpec.describe "Admin Dashboard" do
 
     @customer4 = Customer.create!(first_name: "Alvin", last_name: "Setter")
     @invoice4 = @customer4.invoices.create!(status:1)
+    @invoice4 = @customer4.invoices.create!(status:0)
+    @invoice4 = @customer4.invoices.create!(status:2)
     @transaction13 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction14 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction15 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
@@ -32,6 +38,9 @@ RSpec.describe "Admin Dashboard" do
 
     @customer5 = Customer.create!(first_name: "Masison", last_name: "House")
     @invoice5 = @customer5.invoices.create!(status: 1)
+    @invoice5 = @customer5.invoices.create!(status: 2)
+    @invoice5 = @customer5.invoices.create!(status: 2)
+    @invoice5 = @customer5.invoices.create!(status: 0)
     @transaction17 = @invoice5.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction18 = @invoice5.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
   end
@@ -82,10 +91,10 @@ RSpec.describe "Admin Dashboard" do
     visit "/admin"
 
     expect(page).to have_content("Welcome to the Admin Dashboard")
-
-    wiithin("div#invoices") do
+    require 'pry'; binding.pry
+    within("div#invoices") do
       expect(page).to have_content("Incomplete Invoices")
-      
+
     end
   end
 end
