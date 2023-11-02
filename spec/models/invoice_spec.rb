@@ -55,9 +55,9 @@ RSpec.describe Invoice, type: :model do
   end
 
   it "self.incomplete_invoices" do
-    expect(Invoice.incomplete_invoices.first.id).to eq(@invoice5.id)
-    # expect(Invoice.incomplete_invoices.first.id).to eq(@customer3.invoices[2].id)
-    # expect(Invoice.incomplete_invoices.first.id).to eq(@invoice9.id)
-    # expect(Invoice.incomplete_invoices.first.id).to eq(@invoice14.id)
+    expect(Invoice.incomplete_invoices.first.id).to eq(@invoice14.id)
+    expect(Invoice.incomplete_invoices[1].id).to eq(@invoice9.id)
+    expect(Invoice.incomplete_invoices[2].id).to eq(@invoice6.id)
+    expect(Invoice.incomplete_invoices[3].id).to eq(@invoice5.id)
   end
 end

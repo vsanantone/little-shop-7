@@ -122,7 +122,6 @@ RSpec.describe "Admin Dashboard" do
       expect(page).to have_link("Invoice ID: #{@invoice14.id}")
     end
 
-    # save_and_open_page
     expect("Invoice ID: #{@invoice14.id}").to appear_before("Invoice ID: #{@invoice9.id}")
     expect("Invoice ID: #{@invoice9.id}").to appear_before("Invoice ID: #{@invoice6.id}")
     expect("Invoice ID: #{@invoice6.id}").to appear_before("Invoice ID: #{@invoice5.id}")
