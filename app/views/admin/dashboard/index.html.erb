@@ -1,4 +1,4 @@
-<h3>Welcome to the Admin Dashboard</h3>
+<h1>Welcome to the Admin Dashboard</h1>
 
 <%= link_to "Admin Merchant's Index", "/admin/merchants" %>
 <%= link_to "Admin Invoice's Index", "/admin/invoices" %>
@@ -15,5 +15,7 @@
 
 <div id="invoices">
   <h3>Incomplete Invoices</h3>
-  
+  <% InvoiceItem.incomplete_invoices.each do |invoice| %>
+    <%= link_to "Invoice ID: #{invoice.invoice_id}", "/admin/invoices/#{invoice.invoice_id}" %> <br>
+  <% end %>
 </div>
