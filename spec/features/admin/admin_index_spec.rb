@@ -107,4 +107,23 @@ RSpec.describe "Admin Dashboard" do
     expect(page).to have_content("Customer Name: #{@invoice5.customer.first_name} #{@invoice5.customer.last_name}")
     expect(page).to have_content("Status: #{@invoice5.status}")
   end
+
+  it "Dashboard - Incomplete Invoices - Ordered with Date" do
+    visit "/admin"
+
+    expect(page).to have_content("Welcome to the Admin Dashboard")
+    
+    within("div#invoices") do
+      expect(page).to have_content("Incomplete Invoices")
+      
+      expect(page).to have_link("Invoice ID: #{@invoice5.id}")
+      expect(page).to have_link("Invoice ID: #{@invoice6.id}")
+      expect(page).to have_link("Invoice ID: #{@invoice9.id}")
+      expect(page).to have_link("Invoice ID: #{@invoice14.id}")
+    end
+
+    expect("Invoice ID: #{@invoice14.id}").to appear_before("Invoice ID: #{@invoice9.id}")
+    expect("Invoice ID: #{@invoice9.id}").to appear_before("Invoice ID: #{@invoice6.id}")
+    expect("Invoice ID: #{@invoice6.id}").to appear_before("Invoice ID: #{@invoice5.id}")
+  end
 end
