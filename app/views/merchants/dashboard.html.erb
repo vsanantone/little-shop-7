@@ -1,8 +1,23 @@
-<%= @merchant.name %>
-<%= link_to "My Items", "/merchants/#{@merchant.id}/items", method: :get %>
-<%= link_to "My Invoices", "/merchants/#{@merchant.id}/invoices", method: :get %>
-<p>Top 5 Customers:</p>
-<% @top_5_customers.each do |customer| %>
-<p><%= "#{customer.first_name} #{customer.last_name}" %> Transactions: <%= customer.count %></p>
-<% end %>
+<h1> Little Esty Shop</h1>
+<%= @merchant.name %><p align=right><%= link_to "My Items", "/merchants/#{@merchant.id}/items", method: :get %>
+<%= link_to "My Invoices", "/merchants/#{@merchant.id}/invoices", method: :get %></p>
+
+<div id = "right"{ float:right; width: 50%;}>
+  <div id="top_5" align=right>
+    <h3>Top 5 Customers:</h3>
+    <% @top_5_customers.each do |customer| %>
+    <%= "#{customer.first_name} #{customer.last_name}" %> Transactions: <%= customer.count %><br>
+    <% end %>
+  </div>
+</div>
+<div id="left"{ float:left; width: 50%;}>
+  <div id="ready_to_ship">
+    <h3>Items Ready to Ship</h3>
+    <% @items_ready_to_ship.each do |item| %>
+    <%= "#{item.name} - Invoice #" %>
+    <%= link_to("#{item.invoice_id},", "/merchants/#{@merchant.id}/invoices/#{item.invoice_id}") %>
+    <%= "#{item.order_date.strftime("%A, %B %d, %Y")}"  %><br>
+    <% end %>
+  </div>
+</div>
 

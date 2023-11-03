@@ -94,10 +94,10 @@ RSpec.describe "Merchants Dashboard" do
         visit "/merchants/#{@merchant.id}/dashboard"
 
         within "#ready_to_ship" do
-          expect(page).to have_content("#{@item_4.name} - Invoice # #{@c6_invoice_2.id}, #{@c6_invoice_2.created_at}")
-          expect(page).to have_content("#{@item_3.name} - Invoice # #{@c6_invoice_3.id}, #{@c6_invoice_3.created_at}")
-          expect(page).to have_content("#{@item_1.name} - Invoice # #{@c6_invoice_4.id}, #{@c6_invoice_4.created_at}")
-          expect(page).to have_content("#{@item_2.name} - Invoice # #{@c6_invoice_4.id}, #{@c6_invoice_4.created_at}")
+          expect(page).to have_content("#{@item_4.name} - Invoice # #{@c6_invoice_2.id}")
+          expect(page).to have_content("#{@item_3.name} - Invoice # #{@c6_invoice_3.id}")
+          expect(page).to have_content("#{@item_1.name} - Invoice # #{@c6_invoice_4.id}")
+          expect(page).to have_content("#{@item_2.name} - Invoice # #{@c6_invoice_4.id}")
         end
       end 
       it 'links each items invoice ID to my merchants invoice show page' do 
@@ -117,10 +117,10 @@ RSpec.describe "Merchants Dashboard" do
         within "#ready_to_ship" do
           expect(this).to appear_before(that)
           expect(page).to have_content("Items Ready to Ship")
-          expect(page).to have_content("#{@item_4.name} - Invoice # #{@c6_invoice_2.id}, #{@c6_invoice_2.created_at}")
-          expect(page).to have_content("#{@item_3.name} - Invoice # #{@c6_invoice_3.id}, #{@c6_invoice_3.created_at}")
-          expect(page).to have_content("#{@item_1.name} - Invoice # #{@c6_invoice_4.id}, #{@c6_invoice_4.created_at}")
-          expect(page).to have_content("#{@item_2.name} - Invoice # #{@c6_invoice_4.id}, #{@c6_invoice_4.created_at}")
+          expect(page).to have_content("#{@item_4.name} - Invoice # #{@c6_invoice_2.id}, #{@c6_invoice_2.created_at.strftime("%A, %B %d, %Y")}")
+          expect(page).to have_content("#{@item_3.name} - Invoice # #{@c6_invoice_3.id}, #{@c6_invoice_3.created_at.strftime("%A, %B %d, %Y")}")
+          expect(page).to have_content("#{@item_1.name} - Invoice # #{@c6_invoice_4.id}, #{@c6_invoice_4.created_at.strftime("%A, %B %d, %Y")}")
+          expect(page).to have_content("#{@item_2.name} - Invoice # #{@c6_invoice_4.id}, #{@c6_invoice_4.created_at.strftime("%A, %B %d, %Y")}")
         end
       end
     end   
