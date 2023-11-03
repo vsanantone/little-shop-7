@@ -12,4 +12,12 @@ class Merchant < ApplicationRecord
       .limit(5)
   end
 
+  def shippable_items
+    Invoice.joins(invoice_items: :item)
+    .select("invoices.id AS invoice_id, invoices.created_at AS order_date, items.name AS name")
+    .where("invoices.status = 0 AND items.merchant_id = #{self.id}")
+    .group("invoices.id, name")
+    .order("order_date")
+  end
+
 end
