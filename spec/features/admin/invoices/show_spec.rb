@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Customer, type: :model do
+RSpec.describe "Admin Invoice Show" do
   before(:each) do
     @customer1 = Customer.create!(first_name: "John", last_name: "Doe")
     @invoice1 = @customer1.invoices.create!(status: 1)
@@ -45,20 +45,12 @@ RSpec.describe Customer, type: :model do
     @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
   end
 
-  describe 'relationships' do
-    it { should have_many :invoices }
-  end
+  it "invoice show page has information about invoice" do
+    visit "/admin/invoices/#{@invoice1.id}"
 
-  describe "validations" do
-    it { should validate_presence_of(:first_name) }
-    it { should validate_presence_of(:last_name) }
-  end
-
-  it "self.top_five_customers" do
-    expect(Customer.top_five_customers.first.first_name).to eq(@customer3.first_name)
-    expect(Customer.top_five_customers[1].first_name).to eq(@customer1.first_name)
-    expect(Customer.top_five_customers[2].first_name).to eq(@customer4.first_name)
-    expect(Customer.top_five_customers[3].first_name).to eq(@customer2.first_name)
-    expect(Customer.top_five_customers.last.first_name).to eq(@customer5.first_name)
+    expect(page).to have_content("Invoice ##{@invoice1.id}")
+    expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
+    expect(page).to have_content("Status: #{@invoice1.status}")
+    expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
   end
 end
