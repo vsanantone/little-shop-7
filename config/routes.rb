@@ -10,9 +10,9 @@ Rails.application.routes.draw do
   # end
   scope module: :merchants, path: "/" do
     resources :merchants, only: [:show] do
-    resource :dashboard, only: [:show]
-    resources :items
-    resources :invoices, only: [:show, :index, :new, :create, :edit, :update, :destroy]
+      resource :dashboard, only: [:show]
+      resources :items
+      resources :invoices, only: [:show, :index, :new, :create, :edit, :update, :destroy]
     end
   end
 
