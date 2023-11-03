@@ -57,9 +57,9 @@ RSpec.describe "Merchants Dashboard" do
 
     @customer_6 = create(:customer)
     c6_invoice_1 = create(:invoice, status: 1, customer_id: @customer_6.id)
-    @c6_invoice_2 = create(:invoice, status: 0, customer_id: @customer_6.id)
-    @c6_invoice_3 = create(:invoice, status: 0, customer_id: @customer_6.id)
-    @c6_invoice_4 = create(:invoice, status: 0, customer_id: @customer_6.id)
+    @c6_invoice_2 = create(:invoice, status: 0, customer_id: @customer_6.id, created_at: "2023-10-19 UTC")
+    @c6_invoice_3 = create(:invoice, status: 0, customer_id: @customer_6.id, created_at: "2023-10-20 UTC")
+    @c6_invoice_4 = create(:invoice, status: 0, customer_id: @customer_6.id, created_at: "2023-10-21 UTC")
     c6_invoice_item_1 = create(:invoice_item, status: 2, invoice_id: c6_invoice_1.id, item_id: @item_1.id)
     c6_invoice_item_2 = create(:invoice_item, status: 0, invoice_id: @c6_invoice_2.id, item_id: @item_4.id)
     c6_invoice_item_3 = create(:invoice_item, status: 1, invoice_id: @c6_invoice_3.id, item_id: @item_3.id)
