@@ -1,0 +1,9 @@
+<h1><%= @item.name %></h1>
+
+  <section id="items-info">
+    <p> Item Name: <%= @item.name %></p>
+    <p> Item Description: <%= @item.description %></p>
+    <p> Current Selling Price: <%= number_to_currency(@item.unit_price) %></p>
+    <br>
+  </section>
+  
