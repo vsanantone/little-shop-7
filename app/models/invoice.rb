@@ -12,8 +12,8 @@ class Invoice < ApplicationRecord
     Invoice.select("invoices.id, invoices.created_at").where("status=0").group("invoices.id").order("invoices.created_at DESC")
   end
 
-  def total_revenue
-    items.sum(:unit_price)
+  def merchant_revenue(merchant_id)
+    items.where("merchant_id = #{merchant_id}").sum(:unit_price)
   end
 
   def merchant_items(merchant_id)

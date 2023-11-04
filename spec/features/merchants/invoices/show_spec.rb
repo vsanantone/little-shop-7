@@ -86,5 +86,9 @@ RSpec.describe "Merchants Invoice Show" do
         expect(page).to have_content("Status: #{@item_1.status}")
       end
     end
+
+    it "displays the total revenue for my merchants items on an invoice." do 
+      
+    end
   end
 end 

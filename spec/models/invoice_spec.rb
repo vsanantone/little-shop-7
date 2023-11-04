@@ -67,10 +67,10 @@ RSpec.describe Invoice, type: :model do
     expect(Invoice.incomplete_invoices[3].id).to eq(@invoice5.id)
   end
 
-  describe "#total_revenue" do 
-    it "finds the sum of item unit prices on to an invoice" do 
-      total_revenue = @invoice1.total_revenue
-      expect(total_revenue).to eq(@item_1.unit_price + @item_2.unit_price)
+  describe "#merchant_revenue" do 
+    it "finds the sum of item unit prices belonging to a given merchant on to an invoice" do 
+      merchant_revenue = @invoice1.merchant_revenue(@merchant.id)
+      expect(merchant_revenue).to eq(@item_1.unit_price)
     end
   end
 
