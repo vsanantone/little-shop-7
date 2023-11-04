@@ -30,4 +30,14 @@ RSpec.describe "Merchant Items Index" do
       expect(page).to have_no_content(@item_7.name)
     end
   end
+
+  describe "US9 - Item Disable/Enable" do
+    describe "visit the merchants items index I see a button next to each item to disable or enable that item" do
+      describe "when I click the button I am redirected back to the items index" do
+        it "I see that the items status has changed" do
+          visit "/merchants/#{@merchant_1.id}/items"
+        end
+      end
+    end
+  end
 end
