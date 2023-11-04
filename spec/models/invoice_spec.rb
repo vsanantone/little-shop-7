@@ -44,7 +44,8 @@ RSpec.describe Invoice, type: :model do
     @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
 
-    @item_1 = create(:item)
+    @merchant = create(:merchant)
+    @item_1 = create(:item, merchant_id: @merchant.id)
     @item_2 = create(:item)
     invoice_item_1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item_1.id)
     invoice_item_1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item_2.id)
@@ -70,6 +71,18 @@ RSpec.describe Invoice, type: :model do
     it "finds the sum of item unit prices on to an invoice" do 
       total_revenue = @invoice1.total_revenue
       expect(total_revenue).to eq(@item_1.unit_price + @item_2.unit_price)
+    end
+  end
+
+  describe "#merchant_items" do 
+    it "finds all items on an invoice that belongs to a given merchant" do 
+      expect(@invoice1.merchant_items(@merchant.id).first.name).to eq(@item_1.name)
+    end
+  end
+
+  describe "#count_items" do 
+    it "finds the quantity of an Item on an invoice" do 
+      expect(@invoice1.count_items(@item_1.id)).to eq(1)
     end
   end
 end
