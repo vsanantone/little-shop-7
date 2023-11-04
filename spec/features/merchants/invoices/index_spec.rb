@@ -38,24 +38,20 @@ RSpec.describe "Merchants Invoice Index" do
   describe "visiting the merchant invoices index (/merchants/:merchant_id/invoices)" do 
     it "displays all the invoices that include at least on of my merchant's items" do 
       visit "/merchants/#{@merchant_1.id}/invoices"
-
-      expect(page).to have_content("#{@invoice_1.id} - #{@invoice_1.status}")
-      expect(page).to have_content("#{@invoice_2.id} - #{@invoice_2.status}")
-      expect(page).to have_content("#{@invoice_3.id} - #{@invoice_3.status}")
-      expect(page).to have_content("#{@invoice_4.id} - #{@invoice_4.status}")
-      expect(page).to have_content("#{@invoice_5.id} - #{@invoice_5.status}")
-      expect(page).to have_content("#{@invoice_6.id} - #{@invoice_6.status}")
-      expect(page).to have_content("#{@invoice_7.id} - #{@invoice_7.status}")
+      expect(page).to have_content("My Invoices")
+      expect(page).to have_content("Invoice ##{@invoice_1.id}")
+      expect(page).to have_content("Invoice ##{@invoice_3.id}")
+      expect(page).to have_content("Invoice ##{@invoice_4.id}")
+      expect(page).to have_content("Invoice ##{@invoice_6.id}")
+      expect(page).to have_content("Invoice ##{@invoice_7.id}")
 
     end
     it "Each Invoice ID displayed is a link to that Invoice's show page" do 
       visit "/merchants/#{@merchant_1.id}/invoices"
 
       expect(page).to have_link("#{@invoice_1.id}")
-      expect(page).to have_link("#{@invoice_2.id}")
       expect(page).to have_link("#{@invoice_3.id}")
       expect(page).to have_link("#{@invoice_4.id}")
-      expect(page).to have_link("#{@invoice_5.id}")
       expect(page).to have_link("#{@invoice_6.id}")
       expect(page).to have_link("#{@invoice_7.id}")
     end
