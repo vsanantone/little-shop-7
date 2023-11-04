@@ -5,10 +5,13 @@
 <p>Created on: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %>
 
 <div id="invoice_items">
-  <h3> Items on this Invoice </h3>
+<h3> Items on this Invoice </h3>
   <% @invoice.items.each do |item| %>
-    <ol><%= item.name %></ol><br>
-      <li><%= item.unit_price %></li><br>
-      <li><%= item.description %></li><br>
+  <ol><%= item.name %></ol>
+    <% item.invoice_items.each do |item|%>
+      <li>Quantity: <%= item.quantity %></li>
+      <li>Price: <%= item.unit_price %></li>
+      <li>Status: <%= item.status %></li> <br>
+    <% end %>
   <% end %>
 </div>

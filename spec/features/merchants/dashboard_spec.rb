@@ -19,7 +19,7 @@ RSpec.describe "Merchants Dashboard" do
     c1_invoice_item_3 = create(:invoice_item, status: 2, invoice_id: c1_invoice_3.id, item_id: @item_1.id)
     
     @customer_2 = create(:customer)
-     c2_invoice_1 = create(:invoice, status: 1, customer_id: @customer_2.id)
+    c2_invoice_1 = create(:invoice, status: 1, customer_id: @customer_2.id)
     c2_invoice_2 = create(:invoice, status: 1, customer_id: @customer_2.id)
     c2_invoice_3 = create(:invoice, status: 1, customer_id: @customer_2.id)
     c2_invoice_4 = create(:invoice, status: 1, customer_id: @customer_2.id)

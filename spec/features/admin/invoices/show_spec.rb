@@ -43,6 +43,26 @@ RSpec.describe "Admin Invoice Show" do
     @invoice14 = @customer5.invoices.create!(status: 0)
     @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
+
+    @item1 = create(:item)
+    @item2 = create(:item)
+    @item3 = create(:item)
+    @item4 = create(:item)
+    @item5 = create(:item)
+    @item6 = create(:item)
+    @item7 = create(:item)
+    @item8 = create(:item)
+    # @item9 = create(:item)
+
+    @invoice_item_1 = create(:invoice_item, status: 0, invoice_id: @invoice1.id, item_id: @item1.id)
+    @invoice_item_2 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item2.id)
+    @invoice_item_3 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item3.id)
+    @invoice_item_4 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item4.id)
+    @invoice_item_5 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item5.id)
+    @invoice_item_6 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
+    @invoice_item_7 = create(:invoice_item, status: 0, invoice_id: @invoice8.id, item_id: @item7.id)
+    @invoice_item_8 = create(:invoice_item, status: 0, invoice_id: @invoice11.id, item_id: @item8.id)
+
   end
 
   it "invoice show page has information about invoice" do
@@ -52,5 +72,19 @@ RSpec.describe "Admin Invoice Show" do
     expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
     expect(page).to have_content("Status: #{@invoice1.status}")
     expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
+  end
+
+  it "Show Invoice Item Information" do
+    visit "/admin/invoices/#{@invoice1.id}"
+    save_and_open_page
+    expect(page).to have_content("Invoice ##{@invoice1.id}")
+    expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
+    expect(page).to have_content("Status: #{@invoice1.status}")
+    expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
+
+    expect(page).to have_content("#{@item1.name}")
+    expect(page).to have_content("Quantity: #{@invoice_item_1.quantity}")
+    expect(page).to have_content("Price: #{@invoice_item_1.unit_price}")
+    expect(page).to have_content("Status: #{@invoice_item_1.status}")
   end
 end
