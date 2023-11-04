@@ -43,6 +43,11 @@ RSpec.describe Invoice, type: :model do
     @invoice14 = @customer5.invoices.create!(status: 0)
     @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
+
+    @item_1 = create(:item)
+    @item_2 = create(:item)
+    invoice_item_1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item_1.id)
+    invoice_item_1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item_2.id)
   end
 
   describe 'relationships' do
@@ -59,5 +64,12 @@ RSpec.describe Invoice, type: :model do
     expect(Invoice.incomplete_invoices[1].id).to eq(@invoice9.id)
     expect(Invoice.incomplete_invoices[2].id).to eq(@invoice6.id)
     expect(Invoice.incomplete_invoices[3].id).to eq(@invoice5.id)
+  end
+
+  describe "#total_revenue" do 
+    it "finds the sum of item unit prices on to an invoice" do 
+      total_revenue = @invoice1.total_revenue
+      expect(total_revenue).to eq(@item_1.unit_price + @item_2.unit_price)
+    end
   end
 end

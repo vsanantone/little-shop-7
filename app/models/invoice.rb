@@ -11,4 +11,8 @@ class Invoice < ApplicationRecord
   def self.incomplete_invoices
     Invoice.select("invoices.id, invoices.created_at").where("status=0").group("invoices.id").order("invoices.created_at DESC")
   end
+
+  def total_revenue
+    items.sum(:unit_price)
+  end
 end
