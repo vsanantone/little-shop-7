@@ -25,6 +25,6 @@ class Merchant < ApplicationRecord
     .select("invoices.*")
     .where("items.merchant_id = #{self.id}")
     .group("invoices.id")
-    .order("created_at")
+    .order("invoices.id")
   end
 end
