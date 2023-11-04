@@ -36,6 +36,44 @@ RSpec.describe "Merchant Items Index" do
       describe "when I click the button I am redirected back to the items index" do
         it "I see that the items status has changed" do
           visit "/merchants/#{@merchant_1.id}/items"
+
+          within "#merchants-items" do
+            expect(page).to have_content("Item's Status: enabled")
+            expect(page).to have_button("Disable #{@item_1.name}")
+            expect(page).to have_button("Enable #{@item_1.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_2.status}")
+            expect(page).to have_button("Disable #{@item_2.name}")
+            expect(page).to have_button("Enable #{@item_2.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_3.status}")
+            expect(page).to have_button("Disable #{@item_3.name}")
+            expect(page).to have_button("Enable #{@item_3.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_4.status}")
+            expect(page).to have_button("Disable #{@item_4.name}")
+            expect(page).to have_button("Enable #{@item_4.name}")
+          end
+
+          click_button("Disable #{@item_1.name}")
+          save_and_open_page
+          within "#merchants-items" do
+            expect(page).to have_content("Item's Status: disabled")
+            expect(page).to have_button("Disable #{@item_1.name}")
+            expect(page).to have_button("Enable #{@item_1.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_2.status}")
+            expect(page).to have_button("Disable #{@item_2.name}")
+            expect(page).to have_button("Enable #{@item_2.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_3.status}")
+            expect(page).to have_button("Disable #{@item_3.name}")
+            expect(page).to have_button("Enable #{@item_3.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_4.status}")
+            expect(page).to have_button("Disable #{@item_4.name}")
+            expect(page).to have_button("Enable #{@item_4.name}")
+          end
         end
       end
     end
