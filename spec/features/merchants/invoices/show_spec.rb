@@ -76,5 +76,15 @@ RSpec.describe "Merchants Invoice Show" do
       expect(page).to have_content("Total Revenue: #{@item_1.unit_price}")
       expect(page).to have_content("Customer: #{@customer_1.first_name} #{@customer_1.last_name}")
     end
+
+    it "shows all relevant info for each of my merchants items on the invoice" do 
+      visit "/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}"
+      within "#item_info" do
+        expect(page).to have_content("Item Name: #{@item_1.name}")
+        expect(page).to have_content("Unit Price: #{@item_1.unit_price}")
+        expect(page).to have_content("Quantity: 1")
+        expect(page).to have_content("Status: #{@item_1.status}")
+      end
+    end
   end
 end 
