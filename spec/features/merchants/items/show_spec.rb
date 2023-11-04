@@ -26,7 +26,6 @@ RSpec.describe "Merchant Items Show" do
 
         click_link(@item_1.name)
 
-        save_and_open_page
 
         within "#items-info" do
           expect(page).to have_content(@item_1.name)
