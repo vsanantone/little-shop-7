@@ -119,23 +119,8 @@ RSpec.describe "Admin Invoice Show" do
   end
 
   xit "Show total revenue from invoice" do
-    # Notes on Revenue Calculation:
-    #   - Only invoices with at least one successful transaction should count 
-    #     towards revenue
-    #   - Revenue for an invoice should be calculated as the sum of the revenue 
-    #     of all invoice items
-    #   - Revenue for an invoice item should be calculated as the invoice item 
-    #     unit price multiplied by the quantity (do not use the item unit price)
-
-    # Thoughts
-    # If the invoice has a successful transaction
-      # I want to select the quantity and unit_price from InvoiceItem
-      # Multiply them and store them a variable that can be returned. 
-    # Dont forget to format from Cents -> Dollars
-
-    require 'pry'; binding.pry
     visit "/admin/invoices/#{@invoice1.id}"
-
+   
     expect(page).to have_content("Total Revenue: #{@invoice1.total_revenue}")
   end
 end
