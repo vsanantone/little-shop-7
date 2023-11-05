@@ -20,7 +20,7 @@ class Invoice < ApplicationRecord
       end
     end
 
-    if successful != nil
+    if successful != []
       self.invoice_items.each do |invoice_item|
         total_revenue_cents += (invoice_item.quantity * invoice_item.unit_price).to_f
       end

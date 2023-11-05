@@ -83,6 +83,15 @@ RSpec.describe Invoice, type: :model do
   end
 
   it "total_revenue" do
+    # Returns 0 with no transactions
+    expect(@invoice3.total_revenue).to eq(0)
+    
+    # Adding a failed transaction returns 0
+    @transaction19 = @invoice3.transactions.create(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
+    expect(@invoice3.total_revenue).to eq(0)
+
+    #adding at lest one successful transaction will generate the total rev
+    @transaction20 = @invoice3.transactions.create(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)    
     expect(@invoice3.total_revenue).to eq(300)
   end
 end
