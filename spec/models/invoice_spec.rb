@@ -52,7 +52,7 @@ RSpec.describe Invoice, type: :model do
     @item6 = create(:item)
     @item7 = create(:item)
     @item8 = create(:item)
-    # @item9 = create(:item)
+    @item9 = create(:item)
 
     @invoice_item_1 = create(:invoice_item, status: 0, invoice_id: @invoice1.id, item_id: @item1.id)
     @invoice_item_2 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item2.id)
@@ -63,6 +63,7 @@ RSpec.describe Invoice, type: :model do
     @invoice_item_7 = create(:invoice_item, status: 0, invoice_id: @invoice8.id, item_id: @item7.id)
     @invoice_item_8 = create(:invoice_item, status: 0, invoice_id: @invoice11.id, item_id: @item8.id)
 
+    @invoice_item_9 = create(:invoice_item, status: 1, unit_price: 10000, quantity: 3, invoice_id: @invoice3.id, item_id: @item9.id)
   end
 
   describe 'relationships' do
@@ -79,5 +80,9 @@ RSpec.describe Invoice, type: :model do
     expect(Invoice.incomplete_invoices[1].id).to eq(@invoice9.id)
     expect(Invoice.incomplete_invoices[2].id).to eq(@invoice6.id)
     expect(Invoice.incomplete_invoices[3].id).to eq(@invoice5.id)
+  end
+
+  it "total_revenue" do
+    expect(@invoice3.total_revenue).to eq(300)
   end
 end
