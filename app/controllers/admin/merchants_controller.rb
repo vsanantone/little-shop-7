@@ -14,7 +14,13 @@ class Admin::MerchantsController < ApplicationController
   def update
     merchant = Merchant.find(params[:id])
     merchant.update(name: params[:name])
-    redirect_to admin_merchant_path(merchant.id)
-    flash[:alert] = "Merchant info has been successfully updated."
+
+    if  merchant.save
+      redirect_to admin_merchant_path(merchant.id)
+      flash[:success] = "Merchant info has been successfully updated."
+    else 
+      redirect_to edit_admin_merchant_path(merchant.id)
+      flash[:error] = "Invalid data; name can't be blank." 
+    end
   end
 end
