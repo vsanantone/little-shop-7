@@ -27,7 +27,21 @@ RSpec.describe "Admin Merchant Update" do
     expect(page).to have_content("John")
     expect(page).to_not have_content(merchant.name)
     # And I see a flash message stating that the information has been successfully updated.
-    save_and_open_page
     expect(page).to have_content("Merchant info has been successfully updated.")
+  end
+
+  it "notifies user with a flash statement when it does not update" do
+    #As an admin
+    merchant = create(:merchant)
+    #when I visit the admin merchant edit page
+    visit edit_admin_merchant_path(merchant.id)
+    #When I use invalid date in the form and
+    fill_in(:name, with: "")
+    #I click submit
+    click_button("Submit")
+    #I am redirected back to the admin merchant edit page
+    expect(current_path).to eq(edit_admin_merchant_path(merchant.id))
+    #And I see a flash message with an error.
+    expect(page).to have_content("Invalid data; name can't be blank.")
   end
 end
