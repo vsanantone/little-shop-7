@@ -4,14 +4,14 @@
 <p>Status: <%= @invoice.status %> </p>
 <p>Created on: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %>
 
+
+
 <div id="invoice_items">
 <h3> Items on this Invoice </h3>
-  <% @invoice.items.each do |item| %>
-  <ol><%= item.name %></ol>
-    <% item.invoice_items.each do |item|%>
-      <li>Quantity: <%= item.quantity %></li>
-      <li>Price: <%= item.unit_price %></li>
-      <li>Status: <%= item.status %></li> <br>
-    <% end %>
+<% @invoice.invoice_items.each do |invoice_item|%>
+  <ol><%= invoice_item.item.name %></ol>
+  <li>Quantity: <%= invoice_item.quantity %></li>
+  <li>Price: <%= invoice_item.unit_price %></li>
+  <li>Status: <%= invoice_item.status %></li> <br>
   <% end %>
 </div>

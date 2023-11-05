@@ -41,8 +41,8 @@ RSpec.describe "Admin Invoice Show" do
     @invoice12 = @customer5.invoices.create!(status: 2)
     @invoice13 = @customer5.invoices.create!(status: 2)
     @invoice14 = @customer5.invoices.create!(status: 0)
-    @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
-    @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
+    @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
+    @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
 
     @item1 = create(:item)
     @item2 = create(:item)
@@ -76,7 +76,7 @@ RSpec.describe "Admin Invoice Show" do
 
   it "Show Invoice Item Information" do
     visit "/admin/invoices/#{@invoice1.id}"
-    save_and_open_page
+    # save_and_open_page
     expect(page).to have_content("Invoice ##{@invoice1.id}")
     expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
     expect(page).to have_content("Status: #{@invoice1.status}")
@@ -88,9 +88,9 @@ RSpec.describe "Admin Invoice Show" do
     expect(page).to have_content("Status: #{@invoice_item_1.status}")
   end
 
-  it "Show Invoice Item Information" do
+  it "Show Invoice Item Information - elaborated" do
     visit "/admin/invoices/#{@invoice4.id}"
-    save_and_open_page
+    # save_and_open_page
     expect(page).to have_content("Invoice ##{@invoice4.id}")
     expect(page).to have_content("Customer Name: #{@invoice4.customer.first_name} #{@invoice4.customer.last_name}")
     expect(page).to have_content("Status: #{@invoice4.status}")
@@ -116,5 +116,26 @@ RSpec.describe "Admin Invoice Show" do
     expect(page).to_not have_content("#{@item3.name}")
     expect(page).to_not have_content("#{@item7.name}")
     expect(page).to_not have_content("#{@item8.name}")
+  end
+
+  xit "Show total revenue from invoice" do
+    # Notes on Revenue Calculation:
+    #   - Only invoices with at least one successful transaction should count 
+    #     towards revenue
+    #   - Revenue for an invoice should be calculated as the sum of the revenue 
+    #     of all invoice items
+    #   - Revenue for an invoice item should be calculated as the invoice item 
+    #     unit price multiplied by the quantity (do not use the item unit price)
+
+    # Thoughts
+    # If the invoice has a successful transaction
+      # I want to select the quantity and unit_price from InvoiceItem
+      # Multiply them and store them a variable that can be returned. 
+    # Dont forget to format from Cents -> Dollars
+
+    require 'pry'; binding.pry
+    visit "/admin/invoices/#{@invoice1.id}"
+
+    expect(page).to have_content("Total Revenue: #{@invoice1.total_revenue}")
   end
 end
