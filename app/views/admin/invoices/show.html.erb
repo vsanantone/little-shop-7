@@ -1,3 +1,8 @@
+<div class="topnav">
+  <%= link_to "Home", "/admin" %>
+  <%= link_to "Invoices", "/admin/invoices" %>
+</div>
+
 <h1>Invoice #<%= @invoice.id %></h3>
 
 <p>Customer Name: <%= "#{@invoice.customer.first_name} #{@invoice.customer.last_name}" %>

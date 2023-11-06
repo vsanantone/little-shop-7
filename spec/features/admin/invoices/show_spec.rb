@@ -132,4 +132,17 @@ RSpec.describe "Admin Invoice Show" do
     expect(page).to have_content("Price: $#{@invoice_item_1.unit_price_show}")
     expect(page).to have_content("Status: #{@invoice_item_1.status}")
   end
+
+  it "Shows the Invoice's status and has an update button" do
+    visit "/admin/invoices/#{@invoice1.id}"
+
+    expect(page).to have_content("Invoice ##{@invoice1.id}")
+    expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
+    expect(page).to have_content("Status: #{@invoice1.status}")
+    expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
+    expect(page).to have_content("Total Revenue: $#{@invoice1.total_revenue}")
+
+    expect(page).to have_button("Update Status")
+    
+  end
 end
