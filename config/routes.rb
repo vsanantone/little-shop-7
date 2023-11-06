@@ -10,14 +10,14 @@ Rails.application.routes.draw do
   # end
   scope module: :merchants, path: "/" do
     resources :merchants, only: [:show] do
-    resource :dashboard, only: [:show]
-    resources :items
-    resources :invoices, only: [:show, :index, :new, :create, :edit, :update, :destroy]
+      resource :dashboard, only: [:show]
+      resources :items
+      resources :invoices, only: [:show, :index, :new, :create, :edit, :update, :destroy]
     end
   end
 
   namespace :admin do
-    resources :merchants, only: [:index, :show]
+    resources :merchants, only: [:index, :show, :edit, :update]
     resources :invoices, only: [:index, :show, :update]
     get "", to: "dashboard#index", as: "dashboard"
   end

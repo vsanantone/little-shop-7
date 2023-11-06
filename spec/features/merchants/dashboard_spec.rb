@@ -1,15 +1,14 @@
-require 'rails_helper' 
+require "rails_helper"
 
-RSpec.describe "Merchants Dashboard" do 
-  before(:each) do 
+RSpec.describe "Merchants Dashboard" do
+  before(:each) do
     @merchant = create(:merchant)
 
     @item_1 = create(:item, merchant_id: @merchant.id)
     @item_2 = create(:item, merchant_id: @merchant.id)
     @item_3 = create(:item, merchant_id: @merchant.id)
     @item_4 = create(:item, merchant_id: @merchant.id)
-    
-    
+
     @customer_1 = create(:customer)
     c1_invoice_1 = create(:invoice, status: 1, customer_id: @customer_1.id)
     c1_invoice_2 = create(:invoice, status: 1, customer_id: @customer_1.id)
@@ -17,7 +16,7 @@ RSpec.describe "Merchants Dashboard" do
     c1_invoice_item_1 = create(:invoice_item, status: 2, invoice_id: c1_invoice_1.id, item_id: @item_1.id)
     c1_invoice_item_2 = create(:invoice_item, status: 2, invoice_id: c1_invoice_2.id, item_id: @item_1.id)
     c1_invoice_item_3 = create(:invoice_item, status: 2, invoice_id: c1_invoice_3.id, item_id: @item_1.id)
-    
+
     @customer_2 = create(:customer)
     c2_invoice_1 = create(:invoice, status: 1, customer_id: @customer_2.id)
     c2_invoice_2 = create(:invoice, status: 1, customer_id: @customer_2.id)
@@ -35,7 +34,6 @@ RSpec.describe "Merchants Dashboard" do
     c3_invoice_item_1 = create(:invoice_item, status: 2, invoice_id: c3_invoice_1.id, item_id: @item_1.id)
     c3_invoice_item_2 = create(:invoice_item, status: 2, invoice_id: c3_invoice_2.id, item_id: @item_1.id)
     c3_invoice_item_3 = create(:invoice_item, status: 2, invoice_id: c3_invoice_3.id, item_id: @item_1.id)
-    
 
     @customer_4 = create(:customer)
     c4_invoice_1 = create(:invoice, status: 1, customer_id: @customer_4.id)
@@ -66,17 +64,17 @@ RSpec.describe "Merchants Dashboard" do
     c6_invoice_item_4 = create(:invoice_item, status: 0, invoice_id: @c6_invoice_4.id, item_id: @item_2.id)
     c6_invoice_item_5 = create(:invoice_item, status: 1, invoice_id: @c6_invoice_4.id, item_id: @item_1.id)
   end
-  describe "visiting the merchant dashboard" do 
-    it "displays the name of my merchant" do 
+  describe "visiting the merchant dashboard" do
+    it "displays the name of my merchant" do
       visit "/merchants/#{@merchant.id}/dashboard"
 
       expect(page).to have_content(@merchant.name)
     end
-    it "displays links to my merchant items index and my merchant invoices index." do 
+    it "displays links to my merchant items index and my merchant invoices index." do
       visit "/merchants/#{@merchant.id}/dashboard"
 
-      expect(page).to have_link("My Items", :href => "/merchants/#{@merchant.id}/items")
-      expect(page).to have_link("My Invoices", :href => "/merchants/#{@merchant.id}/invoices")
+      expect(page).to have_link("My Items", href: "/merchants/#{@merchant.id}/items")
+      expect(page).to have_link("My Invoices", href: "/merchants/#{@merchant.id}/invoices")
     end
     it "displays the name and number of transactions for my merchants top 5 customers." do
       visit "/merchants/#{@merchant.id}/dashboard"
@@ -89,8 +87,8 @@ RSpec.describe "Merchants Dashboard" do
         expect(page).to have_content("#{@customer_4.first_name} #{@customer_4.last_name} Transactions: 2")
       end
     end
-    describe "section 'Items Ready to Ship'" do 
-      it "lists the names of all items that have been ordered and have not been shipped and their associated invoice ID" do 
+    describe "section 'Items Ready to Ship'" do
+      it "lists the names of all items that have been ordered and have not been shipped and their associated invoice ID" do
         visit "/merchants/#{@merchant.id}/dashboard"
 
         within "#ready_to_ship" do
@@ -99,8 +97,8 @@ RSpec.describe "Merchants Dashboard" do
           expect(page).to have_content("#{@item_1.name} - Invoice # #{@c6_invoice_4.id}")
           expect(page).to have_content("#{@item_2.name} - Invoice # #{@c6_invoice_4.id}")
         end
-      end 
-      it 'links each items invoice ID to my merchants invoice show page' do 
+      end
+      it "links each items invoice ID to my merchants invoice show page" do
         visit "/merchants/#{@merchant.id}/dashboard"
 
         within "#ready_to_ship" do
@@ -109,9 +107,9 @@ RSpec.describe "Merchants Dashboard" do
         expect(current_path).to eq("/merchants/#{@merchant.id}/invoices/#{@c6_invoice_2.id}")
       end
 
-      it 'lists each invoices creation date and lists items from oldest to newest' do
+      it "lists each invoices creation date and lists items from oldest to newest" do
         visit "/merchants/#{@merchant.id}/dashboard"
-        save_and_open_page
+
         this = @item_4.name
         that = @item_2.name
         within "#ready_to_ship" do
@@ -123,6 +121,6 @@ RSpec.describe "Merchants Dashboard" do
           expect(page).to have_content("#{@item_2.name} - Invoice # #{@c6_invoice_4.id}, #{@c6_invoice_4.created_at.strftime("%A, %B %d, %Y")}")
         end
       end
-    end   
+    end
   end
-end 
+end
