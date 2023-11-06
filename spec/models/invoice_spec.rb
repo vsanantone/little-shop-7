@@ -44,15 +44,21 @@ RSpec.describe Invoice, type: :model do
     @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
     @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
 
-    @item1 = create(:item)
-    @item2 = create(:item)
-    @item3 = create(:item)
-    @item4 = create(:item)
-    @item5 = create(:item)
-    @item6 = create(:item)
-    @item7 = create(:item)
-    @item8 = create(:item)
-    @item9 = create(:item)
+    @merchant1 = create(:merchant)
+    @merchant2 = create(:merchant)
+    @merchant3 = create(:merchant)
+    
+    
+
+    @item1 = create(:item, merchant_id: @merchant1.id)
+    @item2 = create(:item, merchant_id: @merchant1.id)
+    @item3 = create(:item, merchant_id: @merchant1.id)
+    @item4 = create(:item, merchant_id: @merchant2.id)
+    @item5 = create(:item, merchant_id: @merchant2.id)
+    @item6 = create(:item, merchant_id: @merchant2.id)
+    @item7 = create(:item, merchant_id: @merchant3.id)
+    @item8 = create(:item, merchant_id: @merchant3.id)
+    @item9 = create(:item, merchant_id: @merchant3.id)
 
     @invoice_item_1 = create(:invoice_item, status: 0, invoice_id: @invoice1.id, item_id: @item1.id)
     @invoice_item_2 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item2.id)
@@ -82,7 +88,7 @@ RSpec.describe Invoice, type: :model do
     expect(Invoice.incomplete_invoices[3].id).to eq(@invoice5.id)
   end
 
-  it "total_revenue" do
+  it "#total_revenue" do
     # Returns 0 with no transactions
     expect(@invoice3.total_revenue).to eq(0)
     
@@ -97,20 +103,21 @@ RSpec.describe Invoice, type: :model do
 
   describe "#merchant_revenue" do 
     it "finds the sum of item unit prices belonging to a given merchant on to an invoice" do 
-      merchant_revenue = @invoice1.merchant_revenue(@merchant.id)
-      expect(merchant_revenue).to eq(@item_1.unit_price)
+      merchant_revenue = @invoice1.merchant_revenue(@merchant1.id)
+      expect(merchant_revenue).to eq(@item1.unit_price)
     end
   end
 
   describe "#merchant_items" do 
     it "finds all items on an invoice that belongs to a given merchant" do 
-      expect(@invoice1.merchant_items(@merchant.id).first.name).to eq(@item_1.name)
+    
+      expect(@invoice1.merchant_items(@merchant1.id).first.name).to eq(@item1.name)
     end
   end
 
   describe "#count_items" do 
     it "finds the quantity of an Item on an invoice" do 
-      expect(@invoice1.count_items(@item_1.id)).to eq(1)
+      expect(@invoice1.count_items(@item1.id)).to eq(1)
     end
   end
 end

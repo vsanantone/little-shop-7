@@ -95,11 +95,11 @@ RSpec.describe "Merchants Invoice Show" do
       visit "/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}"
       expect(page).to have_field(:status)
       expect(page).to have_button("Update Item Status")
-      select "disabled", from: :status
+      select "disable", from: :status
       click_button "Update Item Status"
-      save_and_open_page
+    
       expect(current_path).to eq("/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}")
-      expect(page).to have_content("Status: disabled")
+      expect(page).to have_content("Status: disable")
     end
   end
 end 

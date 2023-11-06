@@ -18,27 +18,13 @@ class Merchants::ItemsController < ApplicationController
     @merchant = Merchant.find(params[:merchant_id])
     @item = Item.find(params[:id])
 
-    # if params[:update_item]
-    #   @item.update(item_params)
-    #   @item.save
-
-    #   flash[:success] = "Item information updated successfully."
-    #   redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}"
-    # else
-    #   flash[:error] = "Item information not updated properly, try again."
-    #   redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}/edit"
-    # end
-
-    # require "pry"
-    # binding.pry
-
     if params[:status] == "enable"
       @item.update(status: :enabled)
-      redirect_to "/merchants/#{@merchant.id}/items"
+      redirect_back(fallback_location: "/merchants/:merchant_id/dashboard")
 
     elsif params[:status] == "disable"
       @item.update(status: :disabled)
-      redirect_to "/merchants/#{@merchant.id}/items"
+      redirect_back(fallback_location: "/merchants/:merchant_id/dashboard")
 
     elsif @item.update(item_params)
       @item.save
@@ -56,16 +42,5 @@ class Merchants::ItemsController < ApplicationController
 
   def item_params
     params.permit(:name, :description, :unit_price, :merchant_id)
-  end
-
-  def update
-    item = Item.find(params[:id])
-    item.update(item_params)
-    redirect_back(fallback_location: "/")
-  end
-
-  private
-  def item_params
-    params.permit(:status)
   end
 end
