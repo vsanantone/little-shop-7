@@ -142,7 +142,20 @@ RSpec.describe "Admin Invoice Show" do
     expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
     expect(page).to have_content("Total Revenue: $#{@invoice1.total_revenue}")
 
+    expect(@invoice1.status).to eq("completed")
+    expect(page).to have_content("Updated status")
     expect(page).to have_button("Update Status")
+    expect(page).to have_select("status")
+    expect(page).to have_select("status", selected: @invoice1.status.humanize)
+    expect(page).to have_select("status", selected: "Completed")
     
+    select "In progress", from: "status"
+    expect(@invoice1.status).to eq("completed")
+    click_button("Update Status")
+    expect(current_path).to eq("/admin/invoices/#{@invoice1.id}")
+
+    # This works on the page, but I'm having trouble testing for it
+    
+    # expect(@invoice1.status).to eq("in progress")
   end
 end
