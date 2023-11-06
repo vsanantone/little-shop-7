@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :merchants, only: [:index, :show]
+    resources :merchants, only: [:index, :show, :edit, :update]
     resources :invoices, only: [:index, :show]
     get "", to: "dashboard#index", as: "dashboard"
   end
