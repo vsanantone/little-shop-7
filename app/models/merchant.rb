@@ -20,4 +20,11 @@ class Merchant < ApplicationRecord
     .order("order_date")
   end
 
+  def invoices
+    Invoice.joins(:items)
+    .select("invoices.*")
+    .where("items.merchant_id = #{self.id}")
+    .group("invoices.id")
+    .order("invoices.id")
+  end
 end

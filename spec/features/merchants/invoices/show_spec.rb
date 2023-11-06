@@ -1,6 +1,6 @@
-require "rails_helper"
+require 'rails_helper' 
 
-RSpec.describe Merchant, type: :model do
+RSpec.describe "Merchants Invoice Show" do 
   before(:each) do 
     @merchant = create(:merchant)
 
@@ -66,33 +66,40 @@ RSpec.describe Merchant, type: :model do
     c6_invoice_item_4 = create(:invoice_item, status: 0, invoice_id: @c6_invoice_4.id, item_id: @item_2.id)
     c6_invoice_item_5 = create(:invoice_item, status: 1, invoice_id: @c6_invoice_4.id, item_id: @item_1.id)
   end
+  describe "Visiting the Merchant Invoice Show page" do 
+    it "I see the invoices ID, status, formated created_at date, and the Customers first and last name" do 
+      visit "/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}"
 
-  describe 'relationships' do
-    it { should have_many :items }
-  end
+      expect(page).to have_content("Invoice ##{@c1_invoice_1.id}")
+      expect(page).to have_content("Status: #{@c1_invoice_1.status}")
+      expect(page).to have_content("Created On: #{@c1_invoice_1.created_at.strftime("%A, %B %d, %Y")}")
+      expect(page).to have_content("Customer: #{@customer_1.first_name} #{@customer_1.last_name}")
+    end
 
-  describe "validations" do
-    it { should validate_presence_of(:name) }
-  end
+    it "shows all relevant info for each of my merchants items on the invoice" do 
+      visit "/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}"
+      within "#item_info" do
+        expect(page).to have_content("Item Name: #{@item_1.name}")
+        expect(page).to have_content("Unit Price: #{@item_1.unit_price}")
+        expect(page).to have_content("Quantity: 1")
+        expect(page).to have_content("Status: #{@item_1.status}")
+      end
+    end
 
-  describe "#top_5_customers" do 
-    it "finds the top 5 customers associated with a merchant based on succesful transactions" do 
-      top_5 = @merchant.top_5_customers
-      expect(top_5.first.first_name).to eq(@customer_5.first_name)
+    it "displays the total revenue for my merchants items on an invoice." do 
+      visit "/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}"
+      expect(page).to have_content("Total Revenue: #{@item_1.unit_price}")
+    end
+
+    it "has a button to 'Update Item Status' with a select field, that redirects us to the Merchant Invoice show page" do 
+      visit "/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}"
+      expect(page).to have_field(:status)
+      expect(page).to have_button("Update Item Status")
+      select "disable", from: :status
+      click_button "Update Item Status"
+    
+      expect(current_path).to eq("/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}")
+      expect(page).to have_content("Status: disable")
     end
   end
-
-  describe "#shippable_items" do 
-    it "returns item names, invoice id's and invoice creation dates for all items that are ready to be shipped, ordered oldest to newest." do 
-      ready_to_ship = @merchant.shippable_items
-      expect(ready_to_ship.first.name).to eq(@item_4.name)
-    end
-  end
-
-  describe "#invoices" do 
-    it "returns all invoices that have at least 1 item that is sold by a merchant" do 
-      invoices = @merchant.invoices
-      expect([invoices.first.id, invoices.last.id]).to eq([@c1_invoice_1.id, @c6_invoice_4.id])
-    end
-  end
-end
+end 

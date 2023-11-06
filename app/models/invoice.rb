@@ -27,4 +27,16 @@ class Invoice < ApplicationRecord
     end
     total_revenue = (total_revenue_cents / 100).round(2)
   end
+
+  def merchant_revenue(merchant_id)
+    items.where("merchant_id = #{merchant_id}").sum(:unit_price)
+  end
+
+  def merchant_items(merchant_id)
+    items.where("merchant_id = #{merchant_id}")
+  end
+
+  def count_items(item_id)
+    invoice_items.where("item_id = #{item_id}").count
+  end
 end
