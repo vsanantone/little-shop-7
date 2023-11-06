@@ -57,19 +57,15 @@ RSpec.describe "Merchant Items Index" do
 
           within "#merchants-items" do
             expect(page).to have_content("Item's Status: disabled")
-            expect(page).to have_button("Disable #{@item_1.name}")
             expect(page).to have_button("Enable #{@item_1.name}")
 
             expect(page).to have_content("Item's Status: #{@item_2.status}")
             expect(page).to have_button("Disable #{@item_2.name}")
-            expect(page).to have_button("Enable #{@item_2.name}")
 
             expect(page).to have_content("Item's Status: #{@item_3.status}")
-            expect(page).to have_button("Disable #{@item_3.name}")
             expect(page).to have_button("Enable #{@item_3.name}")
 
             expect(page).to have_content("Item's Status: #{@item_4.status}")
-            expect(page).to have_button("Disable #{@item_4.name}")
             expect(page).to have_button("Enable #{@item_4.name}")
           end
         end

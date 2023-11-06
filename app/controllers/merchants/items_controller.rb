@@ -16,18 +16,39 @@ class Merchants::ItemsController < ApplicationController
 
   def update
     @merchant = Merchant.find(params[:merchant_id])
-    @item = Item.find(params[:item_id])
-    if params[:item_update] == "Update_item"
-      @item.update(item_params)
+    @item = Item.find(params[:id])
+
+    # if params[:update_item]
+    #   @item.update(item_params)
+    #   @item.save
+
+    #   flash[:success] = "Item information updated successfully."
+    #   redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}"
+    # else
+    #   flash[:error] = "Item information not updated properly, try again."
+    #   redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}/edit"
+    # end
+
+    # require "pry"
+    # binding.pry
+
+    if params[:status] == "enable"
+      @item.update(status: :enabled)
+      redirect_to "/merchants/#{@merchant.id}/items"
+
+    elsif params[:status] == "disable"
+      @item.update(status: :disabled)
+      redirect_to "/merchants/#{@merchant.id}/items"
+
+    elsif @item.update(item_params)
+      @item.save
+
       flash[:success] = "Item information updated successfully."
       redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}"
-    end
-    if params[:status] == "Enable"
-      @item.update(status: enable)
-      redirect_to "/merchants/#{@merchant.id}/items"
-    elsif params[:status] == "Disable"
-      @item.update(status: disable)
-      redirect_to "/merchants/#{@merchant.id}/items"
+
+    else
+      flash[:error] = "Item information not updated properly, try again."
+      redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}/edit"
     end
   end
 
