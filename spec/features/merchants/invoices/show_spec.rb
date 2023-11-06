@@ -73,7 +73,6 @@ RSpec.describe "Merchants Invoice Show" do
       expect(page).to have_content("Invoice ##{@c1_invoice_1.id}")
       expect(page).to have_content("Status: #{@c1_invoice_1.status}")
       expect(page).to have_content("Created On: #{@c1_invoice_1.created_at.strftime("%A, %B %d, %Y")}")
-      expect(page).to have_content("Total Revenue: #{@item_1.unit_price}")
       expect(page).to have_content("Customer: #{@customer_1.first_name} #{@customer_1.last_name}")
     end
 
@@ -88,7 +87,19 @@ RSpec.describe "Merchants Invoice Show" do
     end
 
     it "displays the total revenue for my merchants items on an invoice." do 
-      
+      visit "/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}"
+      expect(page).to have_content("Total Revenue: #{@item_1.unit_price}")
+    end
+
+    it "has a button to 'Update Item Status' with a select field, that redirects us to the Merchant Invoice show page" do 
+      visit "/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}"
+      expect(page).to have_field(:status)
+      expect(page).to have_button("Update Item Status")
+      select "disabled", from: :status
+      click_button "Update Item Status"
+      save_and_open_page
+      expect(current_path).to eq("/merchants/#{@merchant.id}/invoices/#{@c1_invoice_1.id}")
+      expect(page).to have_content("Status: disabled")
     end
   end
 end 
