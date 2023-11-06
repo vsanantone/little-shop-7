@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  belongs_to :merchant 
+  belongs_to :merchant
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
 
@@ -7,5 +7,5 @@ class Item < ApplicationRecord
   validates :description, presence: true
   validates :unit_price, presence: true
 
-  enum:status, ["disabled", "enabled"]
+  enum :status, ["disabled", "enabled"]
 end

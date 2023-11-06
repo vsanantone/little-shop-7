@@ -20,3 +20,4 @@ class Admin::InvoicesController < ApplicationController
     params.permit(:status)
   end
 end
+
