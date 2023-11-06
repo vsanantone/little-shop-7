@@ -41,8 +41,29 @@ RSpec.describe Invoice, type: :model do
     @invoice12 = @customer5.invoices.create!(status: 2)
     @invoice13 = @customer5.invoices.create!(status: 2)
     @invoice14 = @customer5.invoices.create!(status: 0)
-    @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
-    @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
+    @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
+    @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
+
+    @item1 = create(:item)
+    @item2 = create(:item)
+    @item3 = create(:item)
+    @item4 = create(:item)
+    @item5 = create(:item)
+    @item6 = create(:item)
+    @item7 = create(:item)
+    @item8 = create(:item)
+    @item9 = create(:item)
+
+    @invoice_item_1 = create(:invoice_item, status: 0, invoice_id: @invoice1.id, item_id: @item1.id)
+    @invoice_item_2 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item2.id)
+    @invoice_item_3 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item3.id)
+    @invoice_item_4 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item4.id)
+    @invoice_item_5 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item5.id)
+    @invoice_item_6 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
+    @invoice_item_7 = create(:invoice_item, status: 0, invoice_id: @invoice8.id, item_id: @item7.id)
+    @invoice_item_8 = create(:invoice_item, status: 0, invoice_id: @invoice11.id, item_id: @item8.id)
+
+    @invoice_item_9 = create(:invoice_item, status: 1, unit_price: 10000, quantity: 3, invoice_id: @invoice3.id, item_id: @item9.id)
   end
 
   describe 'relationships' do
@@ -59,5 +80,18 @@ RSpec.describe Invoice, type: :model do
     expect(Invoice.incomplete_invoices[1].id).to eq(@invoice9.id)
     expect(Invoice.incomplete_invoices[2].id).to eq(@invoice6.id)
     expect(Invoice.incomplete_invoices[3].id).to eq(@invoice5.id)
+  end
+
+  it "total_revenue" do
+    # Returns 0 with no transactions
+    expect(@invoice3.total_revenue).to eq(0)
+    
+    # Adding a failed transaction returns 0
+    @transaction19 = @invoice3.transactions.create(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
+    expect(@invoice3.total_revenue).to eq(0)
+
+    #adding at lest one successful transaction will generate the total rev
+    @transaction20 = @invoice3.transactions.create(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)    
+    expect(@invoice3.total_revenue).to eq(300)
   end
 end

@@ -3,3 +3,15 @@
 <p>Customer Name: <%= "#{@invoice.customer.first_name} #{@invoice.customer.last_name}" %>
 <p>Status: <%= @invoice.status %> </p>
 <p>Created on: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %>
+<p>Total Revenue: <%= number_to_currency(@invoice.total_revenue, precision: 2) %> </p>
+
+
+<div id="invoice_items">
+<h3> Items on this Invoice </h3>
+<% @invoice.invoice_items.each do |invoice_item|%>
+  <ol><%= invoice_item.item.name %></ol>
+  <li>Quantity: <%= invoice_item.quantity %></li>
+  <li>Price: <%= number_to_currency(invoice_item.unit_price_show, precision: 2) %></li>
+  <li>Status: <%= invoice_item.status %></li> <br>
+  <% end %>
+</div>
