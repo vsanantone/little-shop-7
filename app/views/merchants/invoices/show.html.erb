@@ -2,9 +2,9 @@
 <p>Status: <%= @invoice.status %></p>
 <p>Created On: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p>
 <p>Total Revenue: <%= @invoice.merchant_revenue(@merchant.id)%></p>
-<p>Customer: <%= "#{@customer.first_name} #{@customer.last_name}"%></p>
+<p>Customer: <%= "#{@invoice.customer.first_name} #{@invoice.customer.last_name}"%></p>
 <section id="item_info">
-  <% @my_items.each do |item| %>
+  <% @invoice.merchant_items(@merchant.id).each do |item| %>
   <p>Item Name: <%= item.name %></p>
   <p>Unit Price: <%= item.unit_price %></p>
   <p>Quantity: <%= @invoice.count_items(item.id) %></p>
