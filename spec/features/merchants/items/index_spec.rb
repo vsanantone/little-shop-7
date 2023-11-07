@@ -77,17 +77,17 @@ RSpec.describe "Merchant Items Index" do
     describe "visit the merchants items index page I see two sections one for enabled items and one for disabled items" do
       it "I see that each item is listed in the appropriate section" do
         visit "/merchants/#{@merchant_1.id}/items"
-
+        save_and_open_page
         within "#enabled-items" do
           expect(page).to have_content("Enabled Items")
-          expect(page).to have_link(@item_3.name)
-          expect(page).to have_link(@item_4.name)
+          expect(page).to have_link(@item_1.name)
+          expect(page).to have_link(@item_2.name)
         end
 
         within "#disabled-items" do
           expect(page).to have_content("Disabled Items")
-          expect(page).to have_link(@item_1.name)
-          expect(page).to have_link(@item_2.name)
+          expect(page).to have_link(@item_3.name)
+          expect(page).to have_link(@item_4.name)
         end
       end
     end
