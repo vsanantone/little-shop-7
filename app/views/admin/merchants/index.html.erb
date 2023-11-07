@@ -4,3 +4,8 @@
   <%= link_to merchant.name, admin_merchant_path(merchant.id) %>
 <% end %>
 
+<h3>Top Five Merchants</h3>
+<% Merchant.top_five_merchants.each do |merchant| %>
+  <%= merchant.name %>
+  <%= number_to_currency(merchant.convert_to_dollars(merchant.total_revenue), percision: 2) %> <br>
+<% end %>

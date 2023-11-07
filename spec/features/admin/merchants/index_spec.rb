@@ -24,4 +24,12 @@ RSpec.describe "Admin Merchants Index" do
     # And I see the name of that merchant
     expect(page).to have_content(merchant.name)
   end
+
+
+  it "Show to top merchants according to revenue" do
+    visit "/admin/merchants"
+
+    expect(page).to have_content("Top Five Merchants")
+    
+  end
 end
