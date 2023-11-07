@@ -24,5 +24,21 @@ class Admin::MerchantsController < ApplicationController
       flash[:error] = "Invalid data; name can't be blank." 
     end
   end
+
+  def new  
+
+  end
+
+  def create
+    merchant = Merchant.new({
+      name: params[:name]
+    })
+    if merchant.save
+      redirect_to "/admin/merchants"
+    else
+      flash[:alert] = "Please fill in the name field"
+      render :new
+    end
+  end
 end
 

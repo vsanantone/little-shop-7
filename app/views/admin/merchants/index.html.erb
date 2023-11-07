@@ -1,6 +1,19 @@
 <h3>Admin Merchants</h3>
   
-<%@merchants.each do |merchant|%>
-  <%= link_to merchant.name, admin_merchant_path(merchant.id) %>
+
+<% @merchants.each do |merchant|%>
+  <%= link_to merchant.name, admin_merchant_path(merchant.id) %> <br>
 <% end %>
 
+
+
+<style>
+  .top-right-link {
+    position: absolute;
+    top: 100px; /* Adjust this value to control the vertical position */
+    right: 100px; /* Adjust this value to control the horizontal position */
+  }
+</style>
+
+
+<%= link_to "Create a merchant", "/admin/merchants/new", class: "top-right-link" %>
