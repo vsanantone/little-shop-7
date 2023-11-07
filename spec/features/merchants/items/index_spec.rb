@@ -121,4 +121,13 @@ RSpec.describe "Merchant Items Index" do
       end
     end
   end
+
+  describe "US 12 - Most Popular Items" do
+    describe "I see the names of the top 5 most popular items by total revenue generate" do
+      describe "each item links to its show page" do
+        it "total revenue generated is also next to each item" do
+        end
+      end
+    end
+  end
 end
