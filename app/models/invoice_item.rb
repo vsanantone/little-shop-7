@@ -9,6 +9,6 @@ class InvoiceItem < ApplicationRecord
   enum:status, ["pending", "packaged", "shipped"]
 
   def unit_price_show
-    unit_price_formatted = (self.unit_price.to_f / 100).round(2)
+    unit_price_formatted = (self.unit_price.to_f / 100)
   end
 end
