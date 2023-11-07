@@ -13,20 +13,29 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue
-    total_revenue_cents = 0
-    successful = self.transactions.select do |transaction|
-      if transaction.result == "success"
-        true
-      end
-    end
-
-    if successful != []
-      self.invoice_items.each do |invoice_item|
-        total_revenue_cents += (invoice_item.quantity * invoice_item.unit_price).to_f
-      end
-    end
-    total_revenue = (total_revenue_cents / 100).round(2)
+    successful_transaction_ids = self.transactions.where(result: "success").pluck(:id)
+  
+    total_revenue_cents = self.invoice_items
+      .joins(:invoice)
+      .where(invoices: { :transactions.id = successful_transaction_ids })
+      .sum("quantity * unit_price")
+  
+    total_revenue = (total_revenue_cents / 100.0)
   end
+  
+  # def total_revenue
+  #   total_revenue_cents = 0
+  #   successful = self.transactions.select do |transaction|
+  #     transaction.result == "success"
+  #   end
+
+  #   if successful != []
+  #     self.invoice_items.each do |invoice_item|
+  #       total_revenue_cents += (invoice_item.quantity * invoice_item.unit_price).to_f
+  #     end
+  #   end
+  #   total_revenue = (total_revenue_cents / 100)
+  # end
 
   def merchant_revenue(merchant_id)
     items.where("merchant_id = #{merchant_id}").sum(:unit_price)
