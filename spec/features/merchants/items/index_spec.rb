@@ -77,7 +77,7 @@ RSpec.describe "Merchant Items Index" do
     describe "visit the merchants items index page I see two sections one for enabled items and one for disabled items" do
       it "I see that each item is listed in the appropriate section" do
         visit "/merchants/#{@merchant_1.id}/items"
-        save_and_open_page
+
         within "#enabled-items" do
           expect(page).to have_content("Enabled Items")
           expect(page).to have_link(@item_1.name)
@@ -88,6 +88,35 @@ RSpec.describe "Merchant Items Index" do
           expect(page).to have_content("Disabled Items")
           expect(page).to have_link(@item_3.name)
           expect(page).to have_link(@item_4.name)
+        end
+      end
+    end
+  end
+
+  describe "US 11 - create an item" do
+    describe "I see a link to create a new item, I click the link, am taken to a form that allows me to add item info" do
+      it "I click submit, and am taken back to the index page and see the item listed with a default status of disabled" do
+        visit "/merchants/#{@merchant_1.id}/items"
+
+        expect(page).to have_link("Create New Item")
+        click_link("Create New Item")
+
+        expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items/new")
+        expect(page).to have_content("Name:")
+        expect(page).to have_content("Description:")
+        expect(page).to have_content("Unit Price:")
+
+        fill_in("Name:", with: "Black Nichirin Sword")
+        fill_in("Description:", with: "Mysterious, considered a bad omen that the wielder will die young")
+        fill_in("Unit Price:", with: 9999)
+        click_button("Submit")
+
+        expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items")
+
+        within "#disabled-items" do
+          expect(page).to have_content("Disabled Items")
+          expect(page).to have_link("Black Nichirin Sword")
+          expect(page).to have_button("Enable Black Nichirin Sword")
         end
       end
     end
