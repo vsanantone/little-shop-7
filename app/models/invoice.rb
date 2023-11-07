@@ -16,8 +16,8 @@ class Invoice < ApplicationRecord
     successful_transaction_ids = self.transactions.where(result: "success").pluck(:id)
   
     total_revenue_cents = self.invoice_items
-      .joins(:invoice)
-      .where(invoices: { :transactions.id = successful_transaction_ids })
+      .joins(invoice: :transactions)
+      .where(transactions: { id: successful_transaction_ids })
       .sum("quantity * unit_price")
   
     total_revenue = (total_revenue_cents / 100.0)
