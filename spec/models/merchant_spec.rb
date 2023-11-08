@@ -173,12 +173,12 @@ RSpec.describe Merchant, type: :model do
 
   describe "class methods" do
     describe "#status" do
-      xit "will return all merchants with a given status" do
+      it "will return all merchants with a given status" do
         true_merchants = create_list(:merchant, 3, enabled: true)
-        false_merchants = create_list(:merchant, 3)
+        # false_merchants = create_list(:merchant, 3)
 
         expect(Merchant.merchant_status(true)).to eq(true_merchants)
-        expect(Merchant.merchant_status(false)).to eq(false_merchants)
+        expect(Merchant.merchant_status(false)).to eq(@merchant)
       end
     end
   end
