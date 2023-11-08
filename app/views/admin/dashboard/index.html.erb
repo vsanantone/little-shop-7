@@ -16,7 +16,7 @@
 <div id="invoices">
   <h3>Incomplete Invoices</h3>
   <% Invoice.incomplete_invoices.each do |invoice| %>
-    <li><%= link_to "Invoice ID: #{invoice.id}", "/admin/invoices/#{invoice.id}" %> 
+    <li><%= link_to "Invoice ID: #{invoice.id}", admin_invoice_path(invoice.id) %> 
     <%= invoice.created_at.strftime("%A, %B %d, %Y") %></li><br>
   <% end %>
 </div>
