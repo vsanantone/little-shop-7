@@ -20,4 +20,7 @@ class Merchant < ApplicationRecord
     .order("order_date")
   end
 
+  def self.merchant_status(status)
+    Merchant.where("merchants.enabled = #{status}")
+  end
 end
