@@ -1,0 +1,41 @@
+<h1><%= @merchant.name %></h1>
+
+  <section id="merchants-items">
+
+    <section id="enabled-items">
+      <h3> Enabled Items </h3>
+      <% @items.each do |item| %>
+        <% if item.status == nil || item.status == "enabled" %>
+          <p><%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %></p>
+          <p><%= "Item's Status: #{item.status}" %></p>
+          <p><%= button_to "Disable #{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}", method: :patch, data: { turbo: false }, params: { status: "disable" } %></p>
+        <% end %>
+      <% end %>
+    </section>
+    <br>
+  
+
+    <section id="disabled-items">
+      <h3> Disabled Items </h3>
+      <% @items.each do |item| %>
+        <% if item.status == "disabled" %>
+          <p><%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %></p>
+          <p><%= "Item's Status: #{item.status}" %></p>
+          <p><%= button_to "Enable #{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}", method: :patch, data: { turbo: false }, params: { status: "enable" } %></p>
+        <% end %>
+      <% end %>
+    </section>
+  <br>
+
+  <p><%= link_to "Create New Item", "/merchants/#{@merchant.id}/items/new" %></p>
+  </section>
+  <br>
+
+  <section id="popular-items">
+  <h3> Top 5 Most Popular Items </h3>
+  <% @merchant.top_5_items.each do |item| %>
+    <p><%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %>
+    Total revenue: <%= number_to_currency(item.item_revenue / 100) %></p>
+    <p><%= "Top selling date for #{item.name} was #{item.best_day.created_at.strftime("%m/%d/%Y")}" %></p>
+  <% end %>
+  </section>
