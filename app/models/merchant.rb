@@ -1,5 +1,4 @@
 class Merchant < ApplicationRecord
-<<<<<<< HEAD
   include CurrencyConverter
   has_many :items 
 
@@ -13,11 +12,6 @@ class Merchant < ApplicationRecord
             .order("total_revenue DESC")
             .limit(5)
   end
-=======
-  has_many :items
-
-  validates :name, presence: true
->>>>>>> feature/29_user_story
 
   def top_5_customers
     top_5 = Customer.joins(invoices: :items)
