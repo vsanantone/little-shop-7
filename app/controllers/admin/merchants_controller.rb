@@ -1,6 +1,8 @@
 class Admin::MerchantsController < ApplicationController
   def index
     @merchants = Merchant.all
+    @top_five_merchants = Merchant.top_five_merchants
+    @best_day = Merchant.top_merchant_best_day.order_date.strftime("%A, %B %d, %Y")
   end
 
   def show
