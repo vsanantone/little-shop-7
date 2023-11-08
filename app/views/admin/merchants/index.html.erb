@@ -1,11 +1,11 @@
 <h3>Admin Merchants</h3>
   
 <%@merchants.each do |merchant|%>
-  <%= link_to merchant.name, admin_merchant_path(merchant.id) %>
+  <%= link_to merchant.name, admin_merchant_path(merchant.id) %> 
 <% end %>
 
 <h3>Top Five Merchants</h3>
 <% Merchant.top_five_merchants.each do |merchant| %>
-  <%= merchant.name %>
+  <%= link_to "#{merchant.name}", admin_merchant_path(merchant.id) %>
   <%= number_to_currency(merchant.convert_to_dollars(merchant.total_revenue), percision: 2) %> <br>
 <% end %>
