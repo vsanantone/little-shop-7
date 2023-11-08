@@ -47,11 +47,9 @@
       <li>
         <%= link_to "#{merchant.name}", admin_merchant_path(merchant.id) %>
         <%= number_to_currency(merchant.convert_to_dollars(merchant.total_revenue), percision: 2) %> <br>
+        <%= "Top selling date for #{merchant.name} was #{merchant.best_day}" %>
       </li>
     <% end %>
   </ol>
 </div>
 
-<div id= "best_day"> 
- <p>Top selling date for <%= @top_five_merchants.first.name %> was <%= @best_day %></p>
-</div>
