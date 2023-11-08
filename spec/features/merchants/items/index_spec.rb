@@ -150,7 +150,7 @@ RSpec.describe "Merchant Items Index" do
           @invoice_item_10 = create(:invoice_item, item: @item_7, invoice: @invoice_4, quantity: 7, unit_price: 1000, status: 1)
 
           visit "/merchants/#{@merchant_1.id}/items"
-          save_and_open_page
+
           expect(page).to have_content("Top 5 Most Popular Items")
 
           within("#popular-items") do
@@ -172,6 +172,13 @@ RSpec.describe "Merchant Items Index" do
             expect(page).to have_content("#{@item_5.name} Total revenue: $10.00")
           end
         end
+      end
+    end
+  end
+
+  describe "US 13 - Top Items Best Day" do
+    describe "next to each of the 5 most popular items I see the date with the most sales for each item" do
+      it "I see a label “Top selling date for <item name> was <date with most sales>" do
       end
     end
   end
