@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Admin Invoice Show" do
+RSpec.describe InvoiceItem, type: :model do
   before(:each) do
     @customer1 = Customer.create!(first_name: "John", last_name: "Doe")
     @invoice1 = @customer1.invoices.create!(status: 1)
@@ -63,99 +63,26 @@ RSpec.describe "Admin Invoice Show" do
     @invoice_item_7 = create(:invoice_item, status: 0, invoice_id: @invoice8.id, item_id: @item7.id)
     @invoice_item_8 = create(:invoice_item, status: 0, invoice_id: @invoice11.id, item_id: @item8.id)
 
+    @invoice_item_test_1 = create(:invoice_item, status: 0, unit_price: 13635, invoice_id: @invoice1.id, item_id: @item1.id)
+    @invoice_item_test_2 = create(:invoice_item, status: 0, unit_price: 10000, invoice_id: @invoice1.id, item_id: @item1.id)
+    @invoice_item_test_3 = create(:invoice_item, status: 0, unit_price: 2195, invoice_id: @invoice1.id, item_id: @item1.id)
   end
 
-  it "invoice show page has information about invoice" do
-    visit "/admin/invoices/#{@invoice1.id}"
-
-    expect(page).to have_content("Invoice ##{@invoice1.id}")
-    expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
-    expect(page).to have_content("Status: #{@invoice1.status}")
-    expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
+  describe 'relationships' do
+    it { should belong_to :item }
+    it { should belong_to :invoice }
   end
 
-  it "Show Invoice Item Information" do
-    visit "/admin/invoices/#{@invoice1.id}"
-    # save_and_open_page
-    expect(page).to have_content("Invoice ##{@invoice1.id}")
-    expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
-    expect(page).to have_content("Status: #{@invoice1.status}")
-    expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
-
-    expect(page).to have_content("#{@item1.name}")
-    expect(page).to have_content("Quantity: #{@invoice_item_1.quantity}")
-    expect(page).to have_content("Price: $#{@invoice_item_1.unit_price_show}")
-    expect(page).to have_content("Status: #{@invoice_item_1.status}")
+  describe "validations" do
+    it { should validate_presence_of(:status) } 
+    it { should validate_presence_of(:quantity) } 
+    it { should validate_presence_of(:unit_price) } 
   end
 
-  it "Show Invoice Item Information - elaborated" do
-    visit "/admin/invoices/#{@invoice4.id}"
-    # save_and_open_page
-    expect(page).to have_content("Invoice ##{@invoice4.id}")
-    expect(page).to have_content("Customer Name: #{@invoice4.customer.first_name} #{@invoice4.customer.last_name}")
-    expect(page).to have_content("Status: #{@invoice4.status}")
-    expect(page).to have_content("Created on: #{@invoice4.created_at.strftime("%A, %B %d, %Y")}")
-
-    expect(page).to have_content("#{@item4.name}")
-    expect(page).to have_content("Quantity: #{@invoice_item_4.quantity}")
-    expect(page).to have_content("Price: $#{@invoice_item_4.unit_price_show}")
-    expect(page).to have_content("Status: #{@invoice_item_4.status}")
-
-    expect(page).to have_content("#{@item5.name}")
-    expect(page).to have_content("Quantity: #{@invoice_item_5.quantity}")
-    expect(page).to have_content("Price: $#{@invoice_item_5.unit_price_show}")
-    expect(page).to have_content("Status: #{@invoice_item_5.status}")
-
-    expect(page).to have_content("#{@item6.name}")
-    expect(page).to have_content("Quantity: #{@invoice_item_6.quantity}")
-    expect(page).to have_content("Price: $#{@invoice_item_6.unit_price_show}")
-    expect(page).to have_content("Status: #{@invoice_item_6.status}")
-
-    expect(page).to_not have_content("#{@item1.name}")
-    expect(page).to_not have_content("#{@item2.name}")
-    expect(page).to_not have_content("#{@item3.name}")
-    expect(page).to_not have_content("#{@item7.name}")
-    expect(page).to_not have_content("#{@item8.name}")
-  end
-
-  it "Show total revenue from invoice" do
-    visit "/admin/invoices/#{@invoice1.id}"
-    
-    expect(page).to have_content("Invoice ##{@invoice1.id}")
-    expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
-    expect(page).to have_content("Status: #{@invoice1.status}")
-    expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
-    expect(page).to have_content("Total Revenue: $#{@invoice1.total_revenue}")
-
-    expect(page).to have_content("#{@item1.name}")
-    expect(page).to have_content("Quantity: #{@invoice_item_1.quantity}")
-    expect(page).to have_content("Price: $#{@invoice_item_1.unit_price_show}")
-    expect(page).to have_content("Status: #{@invoice_item_1.status}")
-  end
-
-  it "Shows the Invoice's status and has an update button" do
-    visit "/admin/invoices/#{@invoice1.id}"
-
-    expect(page).to have_content("Invoice ##{@invoice1.id}")
-    expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
-    expect(page).to have_content("Status: #{@invoice1.status}")
-    expect(page).to have_content("Created on: #{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
-    expect(page).to have_content("Total Revenue: $#{@invoice1.total_revenue}")
-
-    expect(@invoice1.status).to eq("completed")
-    expect(page).to have_content("Updated status")
-    expect(page).to have_button("Update Status")
-    expect(page).to have_select("status")
-    expect(page).to have_select("status", selected: @invoice1.status.humanize)
-    expect(page).to have_select("status", selected: "Completed")
-    
-    select "In progress", from: "status"
-    expect(@invoice1.status).to eq("completed")
-    click_button("Update Status")
-    expect(current_path).to eq("/admin/invoices/#{@invoice1.id}")
-
-    # This works on the page, but I'm having trouble testing for it
-    
-    # expect(@invoice1.status).to eq("in progress")
+  it "unit_price_show" do
+    expect(@invoice_item_test_1.unit_price_show).to eq(136.35)
+    expect(@invoice_item_test_2.unit_price_show).to eq((@invoice_item_test_2.unit_price.to_f / 100).round(2))
+    expect(@invoice_item_test_3.unit_price_show).to eq((@invoice_item_test_3.unit_price.to_f / 100).round(2))
+    expect(@invoice_item_test_3.unit_price_show).to eq(21.95)
   end
 end

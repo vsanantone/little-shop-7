@@ -1,5 +1,6 @@
 <h3>Admin Merchants</h3>
 
+
 <div id= "enabled_merchants">
   <h4>Enabled Merchants</h4>
   <% @merchants.merchant_status(true).each do |merchant| %>
@@ -8,6 +9,11 @@
     <%= link_to merchant.name, admin_merchant_path(merchant.id)  %>
     <%= button_to "Disable", admin_merchant_path(merchant.id), method: :patch, params: {enabled: false} %></p>
   </div>  
+
+  
+<%@merchants.each do |merchant|%>
+  <%= link_to merchant.name, admin_merchant_path(merchant.id) %>
+
 <% end %>
 </div>  
 <div id= "disabled_merchants">
@@ -17,6 +23,6 @@
 
     <%= link_to merchant.name, admin_merchant_path(merchant.id)  %>
     <p><%= button_to "Enable", admin_merchant_path(merchant.id), method: :patch, params: {enabled: true} %></p>
-  </div>  
-<% end %>
+   </div>  
+   <% end %>
 </div>  

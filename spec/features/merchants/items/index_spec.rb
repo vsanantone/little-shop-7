@@ -5,8 +5,8 @@ RSpec.describe "Merchant Items Index" do
     @merchant_1 = create(:merchant)
     @merchant_2 = create(:merchant)
     @merchant_3 = create(:merchant)
-    @item_1 = create(:item, merchant_id: @merchant_1.id)
-    @item_2 = create(:item, merchant_id: @merchant_1.id)
+    @item_1 = create(:item, merchant_id: @merchant_1.id, status: 1)
+    @item_2 = create(:item, merchant_id: @merchant_1.id, status: 1)
     @item_3 = create(:item, merchant_id: @merchant_1.id, status: 0)
     @item_4 = create(:item, merchant_id: @merchant_1.id, status: 0)
     @item_5 = create(:item, merchant_id: @merchant_2.id)
@@ -28,6 +28,106 @@ RSpec.describe "Merchant Items Index" do
       expect(page).to have_no_content(@item_5.name)
       expect(page).to have_no_content(@item_6.name)
       expect(page).to have_no_content(@item_7.name)
+    end
+  end
+
+  describe "US9 - Item Disable/Enable" do
+    describe "visit the merchants items index I see a button next to each item to disable or enable that item" do
+      describe "when I click the button I am redirected back to the items index" do
+        it "I see that the items status has changed" do
+          visit "/merchants/#{@merchant_1.id}/items"
+
+          within "#merchants-items" do
+            expect(page).to have_content("Item's Status: enabled")
+            expect(page).to have_button("Disable #{@item_1.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_2.status}")
+            expect(page).to have_button("Disable #{@item_2.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_3.status}")
+            expect(page).to have_button("Enable #{@item_3.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_4.status}")
+            expect(page).to have_button("Enable #{@item_4.name}")
+          end
+
+          click_button("Disable #{@item_1.name}")
+
+          expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items")
+
+          within "#merchants-items" do
+            expect(page).to have_content("Item's Status: disabled")
+            expect(page).to have_button("Enable #{@item_1.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_2.status}")
+            expect(page).to have_button("Disable #{@item_2.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_3.status}")
+            expect(page).to have_button("Enable #{@item_3.name}")
+
+            expect(page).to have_content("Item's Status: #{@item_4.status}")
+            expect(page).to have_button("Enable #{@item_4.name}")
+          end
+        end
+      end
+    end
+  end
+
+  describe "US 10 - items grouped  by status" do
+    describe "visit the merchants items index page I see two sections one for enabled items and one for disabled items" do
+      it "I see that each item is listed in the appropriate section" do
+        visit "/merchants/#{@merchant_1.id}/items"
+
+        within "#enabled-items" do
+          expect(page).to have_content("Enabled Items")
+          expect(page).to have_link(@item_1.name)
+          expect(page).to have_link(@item_2.name)
+        end
+
+        within "#disabled-items" do
+          expect(page).to have_content("Disabled Items")
+          expect(page).to have_link(@item_3.name)
+          expect(page).to have_link(@item_4.name)
+        end
+      end
+    end
+  end
+
+  describe "US 11 - create an item" do
+    describe "I see a link to create a new item, I click the link, am taken to a form that allows me to add item info" do
+      it "I click submit, and am taken back to the index page and see the item listed with a default status of disabled" do
+        visit "/merchants/#{@merchant_1.id}/items"
+
+        expect(page).to have_link("Create New Item")
+        click_link("Create New Item")
+
+        expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items/new")
+        expect(page).to have_content("Name:")
+        expect(page).to have_content("Description:")
+        expect(page).to have_content("Unit Price:")
+
+        fill_in("Name:", with: "Black Nichirin Sword")
+        fill_in("Description:", with: "Mysterious, considered a bad omen that the wielder will die young")
+        fill_in("Unit Price:", with: 9999)
+        click_button("Submit")
+
+        expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items")
+
+        within "#disabled-items" do
+          expect(page).to have_content("Disabled Items")
+          expect(page).to have_link("Black Nichirin Sword")
+          expect(page).to have_button("Enable Black Nichirin Sword")
+        end
+      end
+    end
+  end
+
+  describe "US 12 - Most Popular Items" do
+    describe "I see the names of the top 5 most popular items by total revenue generate" do
+      describe "each item links to its show page" do
+        it "total revenue generated is also next to each item" do
+        end
+      end
     end
   end
 end

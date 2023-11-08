@@ -22,5 +22,12 @@ class Merchant < ApplicationRecord
 
   def self.merchant_status(status)
     Merchant.where("merchants.enabled = #{status}")
+
+  def invoices
+    Invoice.joins(:items)
+    .select("invoices.*")
+    .where("items.merchant_id = #{self.id}")
+    .group("invoices.id")
+    .order("invoices.id")
   end
 end
