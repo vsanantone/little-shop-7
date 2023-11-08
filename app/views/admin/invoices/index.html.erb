@@ -1,5 +1,0 @@
-<h3>Admin Invoices</h3>
-
-<% @invoices.each do |invoice| %>
-  <%= link_to "Invoice ID: #{invoice.id}", admin_invoice_path(invoice.id) %><br>
-<% end %>
