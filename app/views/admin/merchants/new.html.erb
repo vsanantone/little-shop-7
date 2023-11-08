@@ -1,0 +1,12 @@
+<h1>Create a New Merchant</h1>
+<p> Add your merchant name and that's it!</p>
+
+<%= form_with url: "/admin/merchants", method: :post, local: true do |f| %>
+  <%= f.label "Name" %>
+  <%= f.text_field :name %>
+  <%= f.submit "Create Merchant" %>
+<% end %>
+
+<% if flash[:alert] %>
+  <%= flash[:alert] %>
+<% end %>
