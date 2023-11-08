@@ -18,19 +18,13 @@ class Admin::MerchantsController < ApplicationController
       merchant.update(enabled: params[:enabled])
       redirect_back(fallback_location: "/admin/merchants")
     elsif params[:name]
-      merchant.update(name: params[:name])
-      
-      require 'pry'; binding.pry
-      
-      redirect_to admin_merchant_path(merchant.id)
-      flash[:success] = "Merchant info has been successfully updated."
-      redirect_to "/admin/merchants/#{merchant.id}/edit"
-      flash[:error] = "Invalid data; name can't be blank."
-    # elsif merchant.save
-    #   flash[:error] = "Invalid data; name can't be blank."
-    # else 
-    #   redirect_to edit_admin_merchant_path(merchant.id)
-    #   flash[:error] = "Invalid data; name can't be blank." 
+      if merchant.update(name: params[:name])
+        flash[:success] = "Merchant info has been successfully updated."
+        redirect_to admin_merchant_path(merchant.id)
+      else
+        flash[:error] = "Invalid data; name can't be blank."
+        redirect_to "/admin/merchants/#{merchant.id}/edit"
+      end
     end
   end
 
