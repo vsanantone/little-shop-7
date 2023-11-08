@@ -29,7 +29,7 @@ RSpec.describe "Admin Merchants Index" do
     expect(page).to have_content(merchant.name)
   end
 
-  xit "can enable/disable a merchant with a button click " do
+  it "can enable/disable a merchant with a button click " do
     merchants = create_list(:merchant, 3)
     # 27. Admin Merchant Enable/Disable
     # As an admin,
