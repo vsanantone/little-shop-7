@@ -44,24 +44,32 @@ RSpec.describe "Admin Merchants Index" do
     @transaction17 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
     @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
 
-    @item1 = create(:item)
-    @item2 = create(:item)
-    @item3 = create(:item)
-    @item4 = create(:item)
-    @item5 = create(:item)
-    @item6 = create(:item)
-    @item7 = create(:item)
-    @item8 = create(:item)
+    @merchant1 = create(:merchant, name: "m1")
+    @merchant2 = create(:merchant, name: "m2")
+    @merchant3 = create(:merchant, name: "m3")
+    @merchant4 = create(:merchant, name: "m4")
+    @merchant5 = create(:merchant, name: "m5")
+    @merchant6 = create(:merchant, name: "m6")
+
+
+    @item1 = create(:item, merchant_id: @merchant1.id)
+    @item2 = create(:item, merchant_id: @merchant1.id)
+    @item3 = create(:item, merchant_id: @merchant2.id)
+    @item3 = create(:item, merchant_id: @merchant2.id)
+    @item4 = create(:item, merchant_id: @merchant3.id)
+    @item5 = create(:item, merchant_id: @merchant3.id)
+    @item6 = create(:item, merchant_id: @merchant4.id)
+    @item7 = create(:item, merchant_id: @merchant4.id)
+    @item8 = create(:item, merchant_id: @merchant5.id)
     
-    @invoice_item_1 = create(:invoice_item, status: 0, invoice_id: @invoice1.id, item_id: @item1.id)
-    @invoice_item_2 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item2.id)
-    @invoice_item_3 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item3.id)
-    @invoice_item_4 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item4.id)
-    @invoice_item_5 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item5.id)
-    @invoice_item_6 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
-    @invoice_item_7 = create(:invoice_item, status: 0, invoice_id: @invoice8.id, item_id: @item7.id)
-    @invoice_item_8 = create(:invoice_item, status: 0, invoice_id: @invoice11.id, item_id: @item8.id)
-    
+    @invoice_item_1 = create(:invoice_item, status: 0, unit_price: 500, invoice_id: @invoice1.id, item_id: @item1.id)
+    @invoice_item_2 = create(:invoice_item, status: 0, unit_price: 300,invoice_id: @invoice2.id, item_id: @item2.id)
+    @invoice_item_3 = create(:invoice_item, status: 0, unit_price: 100,invoice_id: @invoice2.id, item_id: @item3.id)
+    @invoice_item_4 = create(:invoice_item, status: 0, unit_price: 100,invoice_id: @invoice4.id, item_id: @item4.id)
+    @invoice_item_5 = create(:invoice_item, status: 0, unit_price: 500,invoice_id: @invoice4.id, item_id: @item5.id)
+    @invoice_item_6 = create(:invoice_item, status: 0, unit_price: 200,invoice_id: @invoice4.id, item_id: @item6.id)
+    @invoice_item_7 = create(:invoice_item, status: 0, unit_price: 100,invoice_id: @invoice8.id, item_id: @item7.id)
+    @invoice_item_8 = create(:invoice_item, status: 0, unit_price: 100,invoice_id: @invoice11.id, item_id: @item8.id)
   end
   it "displays all merchant names" do
     merchants = create_list(:merchant, 10)
@@ -90,6 +98,29 @@ RSpec.describe "Admin Merchants Index" do
     visit "/admin/merchants"
 
     expect(page).to have_content("Top Five Merchants")
-    save_and_open_page
+    expect(page).to have_content("#{@merchant3.name} $90.00")
+    expect(page).to have_content("#{@merchant1.name} $38.00")
+    expect(page).to have_content("#{@merchant4.name} $34.00")
+    expect(page).to have_content("#{@merchant2.name} $6.00")
+    
+    within("div#top_merchants") do
+      expect(@merchant3.name).to appear_before(@merchant1.name)
+      expect(@merchant1.name).to appear_before(@merchant4.name)
+      expect(@merchant4.name).to appear_before(@merchant2.name)
+      
+      #Has no Successful transactions
+      expect(page).to_not have_content(@merchant5.name)
+      # Has no transactions
+      expect(page).to_not have_content(@merchant6.name)
+    end 
+
+    @transaction17.result = 1
+    @transaction17.save
+
+    visit "/admin/merchants"
+
+    within("div#top_merchants") do
+      expect(page).to have_content(@merchant5.name)
+    end
   end
 end
