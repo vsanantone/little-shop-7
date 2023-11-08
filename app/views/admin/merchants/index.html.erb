@@ -1,9 +1,5 @@
 <h3>Admin Merchants</h3>
-
-<%@merchants.each do |merchant|%>
-  <%= link_to merchant.name, admin_merchant_path(merchant.id) %>
-<% end %>
-
+  
 <div id= "enabled_merchants">
   <h4>Enabled Merchants</h4>
   <% @merchants.merchant_status(true).each do |merchant| %>
@@ -15,8 +11,6 @@
   <% end %>  
 </div>
 
-
-
 <div id= "disabled_merchants">
     <h4>Disabled Merchants</h4>
   <% @merchants.merchant_status(false).each do |merchant| %>
@@ -27,3 +21,33 @@
     </div>  
   <% end %>
 </div>  
+
+<style>
+  .top-right-link {
+    position: absolute;
+    top: 22px; /* Adjust this value to control the vertical position */
+    left: 170px; /* Adjust this value to control the horizontal position */
+  }
+</style>
+
+<%= link_to "Create a merchant", "/admin/merchants/new", class: "top-right-link" %>
+
+<style>
+  .top-five-merchants {
+    position: absolute;
+    top: 30px;
+    right: 300px;
+  }
+</style>
+
+<div id="top_merchants" class="top-five-merchants" >
+<h3>Top Five Merchants</h3>
+  <ol>
+    <% @top_five_merchants.each do |merchant| %>
+      <li>
+        <%= link_to "#{merchant.name}", admin_merchant_path(merchant.id) %>
+        <%= number_to_currency(merchant.convert_to_dollars(merchant.total_revenue), percision: 2) %> <br>
+      </li>
+    <% end %>
+  </ol>
+</div>
