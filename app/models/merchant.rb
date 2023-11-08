@@ -1,7 +1,17 @@
 class Merchant < ApplicationRecord
-  has_many :items
+  include CurrencyConverter
+  has_many :items 
 
   validates :name, presence: true
+  
+  def self.top_five_merchants
+    Merchant.joins(items: { invoices: [:invoice_items, :transactions] })
+            .select("merchants.id, merchants.name, SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue")
+            .where("transactions.result=1")
+            .group("merchants.id")
+            .order("total_revenue DESC")
+            .limit(5)
+  end
 
   def top_5_customers
     top_5 = Customer.joins(invoices: :items)
