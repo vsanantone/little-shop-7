@@ -48,7 +48,6 @@ RSpec.describe "Admin Merchants Index" do
     end
     
     visit admin_merchants_path
-    save_and_open_page
 
     enabled_merchants.each do |merchant|
       within("#merchant-#{merchant.id}") do
@@ -87,6 +86,4 @@ RSpec.describe "Admin Merchants Index" do
       expect(page).to_not have_content(true_merchants.last.name)
     end
   end
-
-  
 end
