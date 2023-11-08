@@ -87,6 +87,8 @@ RSpec.describe Merchant, type: :model do
     it "returns item names, invoice id's and invoice creation dates for all items that are ready to be shipped, ordered oldest to newest." do
       ready_to_ship = @merchant.shippable_items
       expect(ready_to_ship.first.name).to eq(@item_4.name)
+    end
+  end
 
   describe "instance methods" do
     before(:each) do 
@@ -178,7 +180,6 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.merchant_status(true)).to eq(true_merchants)
         expect(Merchant.merchant_status(false)).to eq(false_merchants)
       end
-
     end
   end
 
