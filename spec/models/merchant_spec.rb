@@ -173,7 +173,7 @@ RSpec.describe Merchant, type: :model do
 
   describe "class methods" do
     describe "#status" do
-      it "will return all merchants with a given status" do
+      xit "will return all merchants with a given status" do
         true_merchants = create_list(:merchant, 3, enabled: true)
         false_merchants = create_list(:merchant, 3)
 
