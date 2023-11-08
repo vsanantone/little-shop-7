@@ -1,8 +1,4 @@
 <h3>Admin Merchants</h3>
-<h3>All Merchants</h3>
-<%@merchants.each do |merchant|%>
-  <%= link_to merchant.name, admin_merchant_path(merchant.id) %>
-<% end %>
 
 <div id= "enabled_merchants">
   <h4>Enabled Merchants</h4>
@@ -29,8 +25,8 @@
 <style>
   .top-right-link {
     position: absolute;
-    top: 100px; /* Adjust this value to control the vertical position */
-    right: 100px; /* Adjust this value to control the horizontal position */
+    top: 22px; /* Adjust this value to control the vertical position */
+    left: 170px; /* Adjust this value to control the horizontal position */
   }
 </style>
 

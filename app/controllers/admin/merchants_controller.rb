@@ -7,28 +7,19 @@ class Admin::MerchantsController < ApplicationController
     @merchant = Merchant.find(params[:id])
   end
 
-
-  def update
-    #find our merchant
-    @merchant = Merchant.find(params[:id])
-    #use the request to update the merchant 
-    @merchant.update(enabled: params[:enabled])
-    #redirect to the admin merchants index
-    redirect_to admin_merchants_path
-  end
-
   def edit
     @merchant = Merchant.find(params[:id])
   end
 
   def update
     merchant = Merchant.find(params[:id])
-    merchant.update(name: params[:name])
-
-    # require 'pry'; binding.pry
+    
     if params[:enabled]
       merchant.update(enabled: params[:enabled])
       redirect_back(fallback_location: "/admin/merchants")
+    elsif params[:name]
+      merchant.update(name: params[:name])
+      redirect_to "/admin/merchants"
     elsif merchant.save
       redirect_to admin_merchant_path(merchant.id)
       flash[:success] = "Merchant info has been successfully updated."
@@ -39,13 +30,14 @@ class Admin::MerchantsController < ApplicationController
   end
 
   def new  
-
   end
 
   def create
     merchant = Merchant.new({
-      name: params[:name]
+      name: params[:name],
+      enabled: false
     })
+
     if merchant.save
       redirect_to "/admin/merchants"
     else
