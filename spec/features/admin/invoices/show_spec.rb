@@ -52,7 +52,6 @@ RSpec.describe "Admin Invoice Show" do
     @item6 = create(:item)
     @item7 = create(:item)
     @item8 = create(:item)
-    # @item9 = create(:item)
 
     @invoice_item_1 = create(:invoice_item, status: 0, invoice_id: @invoice1.id, item_id: @item1.id)
     @invoice_item_2 = create(:invoice_item, status: 0, invoice_id: @invoice2.id, item_id: @item2.id)
@@ -62,7 +61,6 @@ RSpec.describe "Admin Invoice Show" do
     @invoice_item_6 = create(:invoice_item, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
     @invoice_item_7 = create(:invoice_item, status: 0, invoice_id: @invoice8.id, item_id: @item7.id)
     @invoice_item_8 = create(:invoice_item, status: 0, invoice_id: @invoice11.id, item_id: @item8.id)
-
   end
 
   it "invoice show page has information about invoice" do
@@ -134,7 +132,7 @@ RSpec.describe "Admin Invoice Show" do
   end
 
   it "Shows the Invoice's status and has an update button" do
-    visit "/admin/invoices/#{@invoice1.id}"
+    visit admin_invoice_path(@invoice1.id)
 
     expect(page).to have_content("Invoice ##{@invoice1.id}")
     expect(page).to have_content("Customer Name: #{@invoice1.customer.first_name} #{@invoice1.customer.last_name}")
@@ -152,10 +150,11 @@ RSpec.describe "Admin Invoice Show" do
     select "In progress", from: "status"
     expect(@invoice1.status).to eq("completed")
     click_button("Update Status")
-    expect(current_path).to eq("/admin/invoices/#{@invoice1.id}")
+    expect(current_path).to eq(admin_invoice_path(@invoice1.id))
 
-    # This works on the page, but I'm having trouble testing for it
-    
+    # @invoice1.save
+
+    # visit admin_invoice_path(@invoice1.id)
     # expect(@invoice1.status).to eq("in progress")
   end
 end
