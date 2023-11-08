@@ -17,16 +17,21 @@ RSpec.describe "Admin Merchants Index" do
     # As an admin,
     # When I click on the name of a merchant from the admin merchants index page (/admin/merchants),
     visit admin_merchants_path
-    click_link(merchant.name)
+    
+    within("#merchant-#{merchant.id}") do
+      click_link(merchant.name)
 
-    # Then I am taken to that merchant's admin show page (/admin/merchants/:merchant_id)
-    expect(current_path).to eq(admin_merchant_path(merchant.id))
+      # Then I am taken to that merchant's admin show page (/admin/merchants/:merchant_id)
+      expect(current_path).to eq(admin_merchant_path(merchant.id))
+    end
+    visit admin_merchant_path(merchant.id)
     # And I see the name of that merchant
     expect(page).to have_content(merchant.name)
   end
 
   it "can enable/disable a merchant with a button click " do
     merchants = create_list(:merchant, 3)
+    enabled_merchants = create_list(:merchant, 3, enabled: true)
     # 27. Admin Merchant Enable/Disable
     # As an admin,
     # When I visit the admin merchants index (/admin/merchants)
@@ -37,21 +42,21 @@ RSpec.describe "Admin Merchants Index" do
         expect(page).to have_content(merchant.name) #either class or section id in the view
         expect(page).to have_button("Enable")
         expect(page).to_not have_button("Disable")
+        click_button("Enable")
       end
+      expect(current_path).to eq(admin_merchants_path)
     end
-    # When I click this button
-    within("#merchant-#{merchants.first.id}") do
-      click_button("Enable")
-    end
-    # Then I am redirected back to the admin merchants index
+    
+    visit admin_merchants_path
+
+    enabled_merchants.each do |merchant|
+      within("#merchant-#{merchant.id}") do
+        expect(page).to have_content(merchant.name)
+        expect(page).to have_button("Disable")
+        expect(page).to_not have_button("Enable")
+        click_button("Disable")
+      end
     expect(current_path).to eq(admin_merchants_path)
-    # And I see that the merchant's status has changed
-    within("#merchant-#{merchants.first.id}") do
-      expect(page).to have_content(merchants.first.name)
-      expect(page).to have_button("Disable")
-      expect(page).to_not have_button("Enable")
-      click_button("Disable")
-      expect(page).to have_button("Enable")
     end
   end
 
@@ -81,6 +86,4 @@ RSpec.describe "Admin Merchants Index" do
       expect(page).to_not have_content(true_merchants.last.name)
     end
   end
-
-  
 end
