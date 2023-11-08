@@ -205,6 +205,8 @@ RSpec.describe "Admin Merchants Index" do
 
     within("div#top_merchants") do
       expect(page).to have_content(@merchant5.name)
+      click_link("#{@merchant5.name}")
+      expect(current_path).to eq("/admin/merchants/#{@merchant5.id}")
     end
   end
 end

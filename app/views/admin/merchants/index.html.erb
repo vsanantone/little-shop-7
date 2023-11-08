@@ -43,7 +43,7 @@
 <div id="top_merchants" class="top-five-merchants" >
 <h3>Top Five Merchants</h3>
   <ol>
-    <% Merchant.top_five_merchants.each do |merchant| %>
+    <% @top_five_merchants.each do |merchant| %>
       <li>
         <%= link_to "#{merchant.name}", admin_merchant_path(merchant.id) %>
         <%= number_to_currency(merchant.convert_to_dollars(merchant.total_revenue), percision: 2) %> <br>
