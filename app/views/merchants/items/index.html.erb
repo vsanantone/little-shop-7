@@ -29,7 +29,12 @@
 
   <p><%= link_to "Create New Item", "/merchants/#{@merchant.id}/items/new" %></p>
   </section>
+  <br>
 
   <section id="popular-items">
-  <h3> Items Ranked by Revenue Generated </h3>
+  <h3> Top 5 Most Popular Items </h3>
+  <% @merchant.top_5_items.each do |item| %>
+    <p><%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %>
+     Total revenue: <%= number_to_currency(item.item_revenue / 100) %></p>
+  <% end %>
   </section>

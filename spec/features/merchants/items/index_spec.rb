@@ -9,9 +9,9 @@ RSpec.describe "Merchant Items Index" do
     @item_2 = create(:item, merchant_id: @merchant_1.id, status: 1)
     @item_3 = create(:item, merchant_id: @merchant_1.id, status: 0)
     @item_4 = create(:item, merchant_id: @merchant_1.id, status: 0)
-    @item_5 = create(:item, merchant_id: @merchant_2.id)
-    @item_6 = create(:item, merchant_id: @merchant_2.id)
-    @item_7 = create(:item, merchant_id: @merchant_3.id)
+    @item_5 = create(:item, merchant_id: @merchant_2.id, status: 0)
+    @item_6 = create(:item, merchant_id: @merchant_2.id, status: 1)
+    @item_7 = create(:item, merchant_id: @merchant_3.id, status: 1)
   end
 
   describe "US6 - index page" do
@@ -126,6 +126,51 @@ RSpec.describe "Merchant Items Index" do
     describe "I see the names of the top 5 most popular items by total revenue generate" do
       describe "each item links to its show page" do
         it "total revenue generated is also next to each item" do
+          @item_5 = create(:item, merchant: @merchant_1)
+          @item_6 = create(:item, merchant: @merchant_1)
+          @item_7 = create(:item, merchant: @merchant_1)
+
+          @customer_1 = create(:customer)
+          @customer_2 = create(:customer)
+
+          @invoice_1 = create(:invoice, customer: @customer_1)
+          @invoice_2 = create(:invoice, customer: @customer_1)
+          @invoice_3 = create(:invoice, customer: @customer_2)
+          @invoice_4 = create(:invoice, customer: @customer_2)
+
+          @invoice_item_1 = create(:invoice_item, item: @item_1, invoice: @invoice_1, quantity: 1, unit_price: 500, status: 1)
+          @invoice_item_2 = create(:invoice_item, item: @item_2, invoice: @invoice_1, quantity: 1, unit_price: 1000, status: 1)
+          @invoice_item_3 = create(:invoice_item, item: @item_2, invoice: @invoice_2, quantity: 3, unit_price: 1000, status: 1)
+          @invoice_item_4 = create(:invoice_item, item: @item_3, invoice: @invoice_2, quantity: 2, unit_price: 1500, status: 1)
+          @invoice_item_5 = create(:invoice_item, item: @item_4, invoice: @invoice_2, quantity: 10, unit_price: 40, status: 1)
+          @invoice_item_6 = create(:invoice_item, item: @item_5, invoice: @invoice_1, quantity: 1, unit_price: 1000, status: 1)
+          @invoice_item_7 = create(:invoice_item, item: @item_6, invoice: @invoice_1, quantity: 7, unit_price: 500, status: 1)
+          @invoice_item_8 = create(:invoice_item, item: @item_7, invoice: @invoice_1, quantity: 4, unit_price: 1200, status: 1)
+          @invoice_item_9 = create(:invoice_item, item: @item_7, invoice: @invoice_3, quantity: 10, unit_price: 1200, status: 1)
+          @invoice_item_10 = create(:invoice_item, item: @item_7, invoice: @invoice_4, quantity: 7, unit_price: 1000, status: 1)
+
+          visit "/merchants/#{@merchant_1.id}/items"
+          save_and_open_page
+          expect(page).to have_content("Top 5 Most Popular Items")
+
+          within("#popular-items") do
+            expect(page).to have_link(@item_2.name)
+            expect(page).to have_link(@item_3.name)
+            expect(page).to have_link(@item_5.name)
+            expect(page).to have_link(@item_6.name)
+            expect(page).to have_link(@item_7.name)
+
+            expect(@item_7.name).to appear_before(@item_2.name)
+            expect(@item_2.name).to appear_before(@item_6.name)
+            expect(@item_6.name).to appear_before(@item_3.name)
+            expect(@item_3.name).to appear_before(@item_5.name)
+
+            expect(page).to have_content("#{@item_7.name} Total revenue: $238.00")
+            expect(page).to have_content("#{@item_2.name} Total revenue: $40.00")
+            expect(page).to have_content("#{@item_6.name} Total revenue: $35.00")
+            expect(page).to have_content("#{@item_3.name} Total revenue: $30.00")
+            expect(page).to have_content("#{@item_5.name} Total revenue: $10.00")
+          end
         end
       end
     end
