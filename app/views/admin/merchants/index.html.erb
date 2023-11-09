@@ -1,3 +1,4 @@
+<%= render partial: "layouts/header_admin" %>
 <h3>Admin Merchants</h3>
   
 <div id= "enabled_merchants">
@@ -25,7 +26,7 @@
 <style>
   .top-right-link {
     position: absolute;
-    top: 22px; /* Adjust this value to control the vertical position */
+    top: 46px; /* Adjust this value to control the vertical position */
     left: 170px; /* Adjust this value to control the horizontal position */
   }
 </style>
@@ -35,7 +36,7 @@
 <style>
   .top-five-merchants {
     position: absolute;
-    top: 30px;
+    top: 50px;
     right: 300px;
   }
 </style>
@@ -47,7 +48,9 @@
       <li>
         <%= link_to "#{merchant.name}", admin_merchant_path(merchant.id) %>
         <%= number_to_currency(merchant.convert_to_dollars(merchant.total_revenue), percision: 2) %> <br>
+        <%= "Top selling date for #{merchant.name} was #{merchant.best_day.order_date.strftime("%A, %B %d, %Y") }" %>
       </li>
     <% end %>
   </ol>
 </div>
+
