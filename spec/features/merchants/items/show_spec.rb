@@ -64,6 +64,29 @@ RSpec.describe "Merchant Items Show" do
             expect(page).to have_content("One of twenty cursed objects that come from a demon")
             expect(page).to have_content("$66.66")
           end
+
+          it "I see the updated info and a flash message stating that the info has not been successfully updated" do
+            visit "/merchants/#{@merchant_1.id}/items/#{@item_1.id}"
+
+            expect(page).to have_link("Update Item Information")
+
+            click_link("Update Item Information")
+
+            expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items/#{@item_1.id}/edit")
+
+            expect(page).to have_content("Name:")
+            expect(page).to have_content("Description:")
+            expect(page).to have_content("Unit Price:")
+
+            fill_in("Name:", with: "")
+            fill_in("Description:", with: "One of twenty cursed objects that come from a demon")
+
+            click_button("Update Item Info")
+
+            expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items/#{@item_1.id}/edit")
+
+            expect(page).to have_content("Item information not updated properly, try again.")
+          end
         end
       end
     end
