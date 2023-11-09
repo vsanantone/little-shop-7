@@ -1,6 +1,6 @@
-require 'rails_helper' 
+require "rails_helper"
 
-RSpec.describe "Merchants Invoice Index" do 
+RSpec.describe "Merchants Invoice Index" do
   before(:each) do
     @merchant_1 = create(:merchant)
     @merchant_2 = create(:merchant)
@@ -10,7 +10,6 @@ RSpec.describe "Merchants Invoice Index" do
     item_2 = create(:item, merchant_id: @merchant_2.id)
     item_3 = create(:item, merchant_id: @merchant_3.id)
 
-    
     @invoice_1 = create(:invoice)
     @invoice_2 = create(:invoice)
     @invoice_3 = create(:invoice)
@@ -35,8 +34,8 @@ RSpec.describe "Merchants Invoice Index" do
     invoice_item_14 = create(:invoice_item, invoice_id: @invoice_7.id, item_id: item_3.id)
   end
 
-  describe "visiting the merchant invoices index (/merchants/:merchant_id/invoices)" do 
-    it "displays all the invoices that include at least on of my merchant's items" do 
+  describe "visiting the merchant invoices index (/merchants/:merchant_id/invoices)" do
+    it "displays all the invoices that include at least on of my merchant's items" do
       visit "/merchants/#{@merchant_1.id}/invoices"
       expect(page).to have_content("My Invoices")
       expect(page).to have_content("Invoice ##{@invoice_1.id}")
@@ -44,9 +43,8 @@ RSpec.describe "Merchants Invoice Index" do
       expect(page).to have_content("Invoice ##{@invoice_4.id}")
       expect(page).to have_content("Invoice ##{@invoice_6.id}")
       expect(page).to have_content("Invoice ##{@invoice_7.id}")
-
     end
-    it "Each Invoice ID displayed is a link to that Invoice's show page" do 
+    it "Each Invoice ID displayed is a link to that Invoice's show page" do
       visit "/merchants/#{@merchant_1.id}/invoices"
 
       expect(page).to have_link("#{@invoice_1.id}")
@@ -59,4 +57,4 @@ RSpec.describe "Merchants Invoice Index" do
       expect(current_path).to eq("/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}")
     end
   end
-end 
+end

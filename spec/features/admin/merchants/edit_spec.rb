@@ -12,7 +12,7 @@ RSpec.describe "Admin Merchant Update" do
     expect(page).to have_link("Update Merchant Information")
     # When I click the link
     click_link("Update Merchant Information")
-    
+
     # Then I am taken to a page to edit this merchant
     expect(current_path).to eq(edit_admin_merchant_path(merchant.id))
     # And I see a form filled in with the existing merchant attribute information
@@ -31,17 +31,17 @@ RSpec.describe "Admin Merchant Update" do
   end
 
   it "notifies user with a flash statement when it does not update" do
-    #As an admin
+    # As an admin
     merchant = create(:merchant)
-    #when I visit the admin merchant edit page
+    # when I visit the admin merchant edit page
     visit edit_admin_merchant_path(merchant.id)
-    #When I use invalid date in the form and
+    # When I use invalid date in the form and
     fill_in(:name, with: "")
-    #I click submit
+    # I click submit
     click_button("Submit")
-    #I am redirected back to the admin merchant edit page
+    # I am redirected back to the admin merchant edit page
     expect(current_path).to eq(edit_admin_merchant_path(merchant.id))
-    #And I see a flash message with an error.
+    # And I see a flash message with an error.
     expect(page).to have_content("Invalid data; name can't be blank.")
   end
 end

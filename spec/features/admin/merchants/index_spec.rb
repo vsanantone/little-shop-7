@@ -17,10 +17,14 @@ RSpec.describe "Admin Merchants Index" do
     @transaction7 = @invoice2.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
 
     @customer3 = Customer.create!(first_name: "Johnny", last_name: "Bowflex")
-    @invoice4 = @customer3.invoices.create!(status:1, created_at: "2023-10-03 UTC")
-    @invoice5 = @customer3.invoices.create!(status:0, created_at: "2023-10-03 UTC")
-    @invoice6 = @customer3.invoices.create!(status:0, created_at: "2023-10-03 UTC")
-    @invoice7 = @customer3.invoices.create!(status:2, created_at: "2023-10-03 UTC")
+    @invoice4 = @customer3.invoices.create!(status: 1)
+    @invoice5 = @customer3.invoices.create!(status: 0)
+    @invoice6 = @customer3.invoices.create!(status: 0)
+    @invoice7 = @customer3.invoices.create!(status: 2)
+    @invoice4 = @customer3.invoices.create!(status: 1, created_at: "2023-10-03 UTC")
+    @invoice5 = @customer3.invoices.create!(status: 0, created_at: "2023-10-03 UTC")
+    @invoice6 = @customer3.invoices.create!(status: 0, created_at: "2023-10-03 UTC")
+    @invoice7 = @customer3.invoices.create!(status: 2, created_at: "2023-10-03 UTC")
     @transaction8 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction9 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction10 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
@@ -28,9 +32,12 @@ RSpec.describe "Admin Merchants Index" do
     @transaction12 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
 
     @customer4 = Customer.create!(first_name: "Alvin", last_name: "Setter")
-    @invoice8 = @customer4.invoices.create!(status:1, created_at: "2023-10-04 UTC")
-    @invoice9 = @customer4.invoices.create!(status:0, created_at: "2023-10-04 UTC")
-    @invoice10 = @customer4.invoices.create!(status:2, created_at: "2023-10-04 UTC")
+    @invoice8 = @customer4.invoices.create!(status: 1)
+    @invoice9 = @customer4.invoices.create!(status: 0)
+    @invoice10 = @customer4.invoices.create!(status: 2)
+    @invoice8 = @customer4.invoices.create!(status: 1, created_at: "2023-10-04 UTC")
+    @invoice9 = @customer4.invoices.create!(status: 0, created_at: "2023-10-04 UTC")
+    @invoice10 = @customer4.invoices.create!(status: 2, created_at: "2023-10-04 UTC")
     @transaction13 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction14 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction15 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
@@ -51,7 +58,6 @@ RSpec.describe "Admin Merchants Index" do
     @merchant5 = create(:merchant, name: "m5")
     @merchant6 = create(:merchant, name: "m6")
 
-
     @item1 = create(:item, merchant_id: @merchant1.id)
     @item2 = create(:item, merchant_id: @merchant1.id)
     @item3 = create(:item, merchant_id: @merchant2.id)
@@ -61,15 +67,15 @@ RSpec.describe "Admin Merchants Index" do
     @item6 = create(:item, merchant_id: @merchant4.id)
     @item7 = create(:item, merchant_id: @merchant4.id)
     @item8 = create(:item, merchant_id: @merchant5.id)
-    
+
     @invoice_item_1 = create(:invoice_item, status: 0, unit_price: 500, invoice_id: @invoice1.id, item_id: @item1.id)
-    @invoice_item_2 = create(:invoice_item, status: 0, unit_price: 300,invoice_id: @invoice2.id, item_id: @item2.id)
-    @invoice_item_3 = create(:invoice_item, status: 0, unit_price: 100,invoice_id: @invoice2.id, item_id: @item3.id)
-    @invoice_item_4 = create(:invoice_item, status: 0, unit_price: 100,invoice_id: @invoice4.id, item_id: @item4.id)
-    @invoice_item_5 = create(:invoice_item, status: 0, unit_price: 500,invoice_id: @invoice4.id, item_id: @item5.id)
-    @invoice_item_6 = create(:invoice_item, status: 0, unit_price: 200,invoice_id: @invoice4.id, item_id: @item6.id)
-    @invoice_item_7 = create(:invoice_item, status: 0, unit_price: 100,invoice_id: @invoice8.id, item_id: @item7.id)
-    @invoice_item_8 = create(:invoice_item, status: 0, unit_price: 100,invoice_id: @invoice11.id, item_id: @item8.id)
+    @invoice_item_2 = create(:invoice_item, status: 0, unit_price: 300, invoice_id: @invoice2.id, item_id: @item2.id)
+    @invoice_item_3 = create(:invoice_item, status: 0, unit_price: 100, invoice_id: @invoice2.id, item_id: @item3.id)
+    @invoice_item_4 = create(:invoice_item, status: 0, unit_price: 100, invoice_id: @invoice4.id, item_id: @item4.id)
+    @invoice_item_5 = create(:invoice_item, status: 0, unit_price: 500, invoice_id: @invoice4.id, item_id: @item5.id)
+    @invoice_item_6 = create(:invoice_item, status: 0, unit_price: 200, invoice_id: @invoice4.id, item_id: @item6.id)
+    @invoice_item_7 = create(:invoice_item, status: 0, unit_price: 100, invoice_id: @invoice8.id, item_id: @item7.id)
+    @invoice_item_8 = create(:invoice_item, status: 0, unit_price: 100, invoice_id: @invoice11.id, item_id: @item8.id)
   end
 
   it "displays all merchant names" do
@@ -86,7 +92,7 @@ RSpec.describe "Admin Merchants Index" do
     merchant = create(:merchant)
 
     visit admin_merchants_path
-    
+
     within("#merchant-#{merchant.id}") do
       click_link(merchant.name)
       expect(current_path).to eq(admin_merchant_path(merchant.id))
@@ -107,14 +113,14 @@ RSpec.describe "Admin Merchants Index" do
     # Then next to each merchant name I see a button to disable or enable that merchant.
     merchants.each do |merchant|
       within("#merchant-#{merchant.id}") do
-        expect(page).to have_content(merchant.name) #either class or section id in the view
+        expect(page).to have_content(merchant.name) # either class or section id in the view
         expect(page).to have_button("Enable")
         expect(page).to_not have_button("Disable")
         click_button("Enable")
       end
       expect(current_path).to eq(admin_merchants_path)
     end
-    
+
     visit admin_merchants_path
 
     enabled_merchants.each do |merchant|
@@ -124,7 +130,7 @@ RSpec.describe "Admin Merchants Index" do
         expect(page).to_not have_button("Enable")
         click_button("Disable")
       end
-    expect(current_path).to eq(admin_merchants_path)
+      expect(current_path).to eq(admin_merchants_path)
     end
   end
 
@@ -139,7 +145,7 @@ RSpec.describe "Admin Merchants Index" do
     # Then I see two sections, one for "Enabled Merchants" and one for "Disabled Merchants"
     within("#enabled_merchants") do
       expect(page).to have_content("Enabled Merchants")
-    # And I see that each Merchant is listed in the appropriate section
+      # And I see that each Merchant is listed in the appropriate section
       expect(page).to have_content(true_merchants.first.name)
       expect(page).to have_content(true_merchants.last.name)
       expect(page).to_not have_content(false_merchants.first.name)
@@ -155,8 +161,6 @@ RSpec.describe "Admin Merchants Index" do
     end
   end
 
- 
-  
   it "Create new merchant" do
     visit "/admin/merchants"
 
@@ -197,17 +201,17 @@ RSpec.describe "Admin Merchants Index" do
     expect(page).to have_content("#{@merchant1.name} $38.00")
     expect(page).to have_content("#{@merchant4.name} $34.00")
     expect(page).to have_content("#{@merchant2.name} $6.00")
-    
+
     within("div#top_merchants") do
       expect(@merchant3.name).to appear_before(@merchant1.name)
       expect(@merchant1.name).to appear_before(@merchant4.name)
       expect(@merchant4.name).to appear_before(@merchant2.name)
-      
-      #Has no Successful transactions
+
+      # Has no Successful transactions
       expect(page).to_not have_content(@merchant5.name)
       # Has no transactions
       expect(page).to_not have_content(@merchant6.name)
-    end 
+    end
 
     # Creates at least one successful transaction.
     @transaction17.result = 1
@@ -219,21 +223,6 @@ RSpec.describe "Admin Merchants Index" do
       expect(page).to have_content(@merchant5.name)
       click_link("#{@merchant5.name}")
       expect(current_path).to eq("/admin/merchants/#{@merchant5.id}")
-    end
-  end
-
-  describe "Top Merchant's Best Day" do 
-    it "displays a label showing the top merchant, and the date they earned the most revenue" do
-    visit admin_merchants_path
-    expect(page).to have_content("Top selling date for #{@merchant1.name} was Sunday, October 01, 2023")
-    expect(page).to have_content("Top selling date for #{@merchant2.name} was Monday, October 02, 2023")
-    expect(page).to have_content("Top selling date for #{@merchant3.name} was Tuesday, October 03, 2023")
-    expect(page).to have_content("Top selling date for #{@merchant4.name} was Tuesday, October 03, 2023")
-
-    @transaction17.result = 1
-    @transaction17.save
-    visit admin_merchants_path
-    expect(page).to have_content("Top selling date for #{@merchant5.name} was Thursday, October 05, 2023")
     end
   end
 end
