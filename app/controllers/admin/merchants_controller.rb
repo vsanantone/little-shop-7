@@ -38,11 +38,12 @@ class Admin::MerchantsController < ApplicationController
       enabled: false
     })
 
-    if merchant.save
-      redirect_to "/admin/merchants"
-    else
+    if params[:name].blank?
       flash[:alert] = "Please fill in the name field"
-      render :new
+      redirect_to "/admin/merchants/new"
+    else
+      merchant.save
+      redirect_to "/admin/merchants"
     end
   end
 end

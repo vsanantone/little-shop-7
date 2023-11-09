@@ -177,6 +177,16 @@ RSpec.describe "Admin Merchants Index" do
 
     click_link("Belongea Boulangerie")
     expect(page).to have_content("Enabled Merchant: false")
+
+    visit "/admin/merchants"
+    # save_and_open_page
+    click_link("Create a merchant")
+    expect(current_path).to eq("/admin/merchants/new")
+    fill_in(:name, with: "")
+    click_button("Create Merchant")
+
+    # expect(current_path).to eq("/admin/merchants/new")
+    # expect(page).to have_content("Please fill in the name field")
   end
 
   it "Show to top merchants according to revenue" do
