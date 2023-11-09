@@ -14,7 +14,7 @@ class Admin::MerchantsController < ApplicationController
 
   def update
     merchant = Merchant.find(params[:id])
-    
+
     if params[:enabled]
       merchant.update(enabled: params[:enabled])
       redirect_back(fallback_location: "/admin/merchants")
@@ -29,7 +29,7 @@ class Admin::MerchantsController < ApplicationController
     end
   end
 
-  def new  
+  def new
   end
 
   def create
@@ -46,4 +46,3 @@ class Admin::MerchantsController < ApplicationController
     end
   end
 end
-

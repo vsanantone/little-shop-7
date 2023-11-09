@@ -6,23 +6,23 @@ class Invoice < ApplicationRecord
 
   validates :status, presence: true
 
-  enum:status, ["in progress", "completed", "cancelled"]
+  enum :status, ["in progress", "completed", "cancelled"]
 
   def self.incomplete_invoices
     Invoice.select("invoices.id, invoices.created_at").where("status=0").group("invoices.id").order("invoices.created_at DESC")
   end
 
   def total_revenue
-    successful_transaction_ids = self.transactions.where(result: "success").pluck(:id)
-  
-    total_revenue_cents = self.invoice_items
+    successful_transaction_ids = transactions.where(result: "success").pluck(:id)
+
+    total_revenue_cents = invoice_items
       .joins(invoice: :transactions)
-      .where(transactions: { id: successful_transaction_ids })
+      .where(transactions: {id: successful_transaction_ids})
       .sum("quantity * unit_price")
-  
+
     total_revenue = (total_revenue_cents / 100.0)
   end
-  
+
   def merchant_revenue(merchant_id)
     items.where("merchant_id = #{merchant_id}").sum(:unit_price)
   end

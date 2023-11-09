@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Admin Dashboard" do
   before :each do
@@ -17,10 +17,10 @@ RSpec.describe "Admin Dashboard" do
     @transaction7 = @invoice2.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
 
     @customer3 = Customer.create!(first_name: "Johnny", last_name: "Bowflex")
-    @invoice4 = @customer3.invoices.create!(status:1)
-    @invoice5 = @customer3.invoices.create!(status:0)
-    @invoice6 = @customer3.invoices.create!(status:0)
-    @invoice7 = @customer3.invoices.create!(status:2)
+    @invoice4 = @customer3.invoices.create!(status: 1)
+    @invoice5 = @customer3.invoices.create!(status: 0)
+    @invoice6 = @customer3.invoices.create!(status: 0)
+    @invoice7 = @customer3.invoices.create!(status: 2)
     @transaction8 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction9 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction10 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
@@ -28,9 +28,9 @@ RSpec.describe "Admin Dashboard" do
     @transaction12 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
 
     @customer4 = Customer.create!(first_name: "Alvin", last_name: "Setter")
-    @invoice8 = @customer4.invoices.create!(status:1)
-    @invoice9 = @customer4.invoices.create!(status:0)
-    @invoice10 = @customer4.invoices.create!(status:2)
+    @invoice8 = @customer4.invoices.create!(status: 1)
+    @invoice9 = @customer4.invoices.create!(status: 0)
+    @invoice10 = @customer4.invoices.create!(status: 2)
     @transaction13 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction14 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction15 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
@@ -45,7 +45,6 @@ RSpec.describe "Admin Dashboard" do
     @transaction18 = @invoice11.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
   end
   it "displays a header indicating the user is on the admin dashboard" do
-  
     # 19. Admin Dashboard
     # As an admin,
     # When I visit the admin dashboard (/admin)
@@ -91,10 +90,10 @@ RSpec.describe "Admin Dashboard" do
     visit "/admin"
 
     expect(page).to have_content("Welcome to the Admin Dashboard")
-    
+
     within("div#invoices") do
       expect(page).to have_content("Incomplete Invoices")
-      
+
       expect(page).to have_link("Invoice ID: #{@invoice5.id}")
       expect(page).to have_link("Invoice ID: #{@invoice6.id}")
       expect(page).to have_link("Invoice ID: #{@invoice9.id}")
@@ -112,10 +111,10 @@ RSpec.describe "Admin Dashboard" do
     visit "/admin"
 
     expect(page).to have_content("Welcome to the Admin Dashboard")
-    
+
     within("div#invoices") do
       expect(page).to have_content("Incomplete Invoices")
-      
+
       expect(page).to have_link("Invoice ID: #{@invoice5.id}")
       expect(page).to have_link("Invoice ID: #{@invoice6.id}")
       expect(page).to have_link("Invoice ID: #{@invoice9.id}")

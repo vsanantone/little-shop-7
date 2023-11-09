@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Merchant, type: :model do
-  describe 'relationships' do
+  describe "relationships" do
     it { should have_many :items }
   end
 
@@ -10,19 +10,19 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe "instance methods" do
-    before(:each) do 
+    before(:each) do
       load_test_data
     end
 
-    describe "#top_5_customers" do 
-      it "finds the top 5 customers associated with a merchant based on succesful transactions" do 
+    describe "#top_5_customers" do
+      it "finds the top 5 customers associated with a merchant based on succesful transactions" do
         top_5 = @merchant.top_5_customers
         expect(top_5.first.first_name).to eq(@customer_5.first_name)
       end
     end
 
-    describe "#shippable_items" do 
-      it "returns item names, invoice id's and invoice creation dates for all items that are ready to be shipped, ordered oldest to newest." do 
+    describe "#shippable_items" do
+      it "returns item names, invoice id's and invoice creation dates for all items that are ready to be shipped, ordered oldest to newest." do
         ready_to_ship = @merchant.shippable_items
         expect(ready_to_ship.first.name).to eq(@item_4.name)
       end

@@ -59,7 +59,7 @@ RSpec.describe "Merchant Items Show" do
             click_button("Update Item Info")
 
             expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items/#{@item_1.id}")
-        
+
             expect(page).to have_content("Sakuna's Finger")
             expect(page).to have_content("One of twenty cursed objects that come from a demon")
             expect(page).to have_content("$66.66")

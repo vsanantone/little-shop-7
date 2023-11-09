@@ -17,10 +17,10 @@ RSpec.describe Invoice, type: :model do
     @transaction7 = @invoice2.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
 
     @customer3 = Customer.create!(first_name: "Johnny", last_name: "Bowflex")
-    @invoice4 = @customer3.invoices.create!(status:1)
-    @invoice5 = @customer3.invoices.create!(status:0)
-    @invoice6 = @customer3.invoices.create!(status:0)
-    @invoice7 = @customer3.invoices.create!(status:2)
+    @invoice4 = @customer3.invoices.create!(status: 1)
+    @invoice5 = @customer3.invoices.create!(status: 0)
+    @invoice6 = @customer3.invoices.create!(status: 0)
+    @invoice7 = @customer3.invoices.create!(status: 2)
     @transaction8 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction9 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction10 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
@@ -28,9 +28,9 @@ RSpec.describe Invoice, type: :model do
     @transaction12 = @invoice4.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
 
     @customer4 = Customer.create!(first_name: "Alvin", last_name: "Setter")
-    @invoice8 = @customer4.invoices.create!(status:1)
-    @invoice9 = @customer4.invoices.create!(status:0)
-    @invoice10 = @customer4.invoices.create!(status:2)
+    @invoice8 = @customer4.invoices.create!(status: 1)
+    @invoice9 = @customer4.invoices.create!(status: 0)
+    @invoice10 = @customer4.invoices.create!(status: 2)
     @transaction13 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction14 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     @transaction15 = @invoice8.transactions.create!(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
@@ -47,8 +47,6 @@ RSpec.describe Invoice, type: :model do
     @merchant1 = create(:merchant)
     @merchant2 = create(:merchant)
     @merchant3 = create(:merchant)
-    
-    
 
     @item1 = create(:item, merchant_id: @merchant1.id)
     @item2 = create(:item, merchant_id: @merchant1.id)
@@ -72,13 +70,13 @@ RSpec.describe Invoice, type: :model do
     @invoice_item_9 = create(:invoice_item, status: 1, unit_price: 10000, quantity: 3, invoice_id: @invoice3.id, item_id: @item9.id)
   end
 
-  describe 'relationships' do
+  describe "relationships" do
     it { should have_many :transactions }
-    it { should belong_to :customer}
+    it { should belong_to :customer }
   end
 
   describe "validations" do
-    it { should validate_presence_of(:status) } 
+    it { should validate_presence_of(:status) }
   end
 
   it "self.incomplete_invoices" do
@@ -91,32 +89,31 @@ RSpec.describe Invoice, type: :model do
   it "#total_revenue" do
     # Returns 0 with no transactions
     expect(@invoice3.total_revenue).to eq(0)
-    
+
     # Adding a failed transaction returns 0
     @transaction19 = @invoice3.transactions.create(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 0)
     expect(@invoice3.total_revenue).to eq(0)
 
-    #adding at lest one successful transaction will generate the total rev
-    @transaction20 = @invoice3.transactions.create(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)    
+    # adding at lest one successful transaction will generate the total rev
+    @transaction20 = @invoice3.transactions.create(credit_card_number: "1234567890", credit_card_expiration_date: "4/27", result: 1)
     expect(@invoice3.total_revenue).to eq(300)
   end
 
-  describe "#merchant_revenue" do 
-    it "finds the sum of item unit prices belonging to a given merchant on to an invoice" do 
+  describe "#merchant_revenue" do
+    it "finds the sum of item unit prices belonging to a given merchant on to an invoice" do
       merchant_revenue = @invoice1.merchant_revenue(@merchant1.id)
       expect(merchant_revenue).to eq(@item1.unit_price)
     end
   end
 
-  describe "#merchant_items" do 
-    it "finds all items on an invoice that belongs to a given merchant" do 
-    
+  describe "#merchant_items" do
+    it "finds all items on an invoice that belongs to a given merchant" do
       expect(@invoice1.merchant_items(@merchant1.id).first.name).to eq(@item1.name)
     end
   end
 
-  describe "#count_items" do 
-    it "finds the quantity of an Item on an invoice" do 
+  describe "#count_items" do
+    it "finds the quantity of an Item on an invoice" do
       expect(@invoice1.count_items(@item1.id)).to eq(1)
     end
   end
