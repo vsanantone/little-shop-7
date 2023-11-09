@@ -1,6 +1,4 @@
-<h1> Little Esty Shop</h1>
-<%= @merchant.name %><p align=right><%= link_to "My Items", "/merchants/#{@merchant.id}/items", method: :get %>
-<%= link_to "My Invoices", "/merchants/#{@merchant.id}/invoices", method: :get %></p>
+<%= render partial: "layouts/header_merchant" %>
 
 <div id = "right"{ float:right; width: 50%;}>
   <div id="top_5" align=right>

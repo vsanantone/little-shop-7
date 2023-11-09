@@ -1,3 +1,5 @@
+<%= render partial: "layouts/header_merchant" %>
+
 <h1>Invoice #<%= @invoice.id %></h1>
 <p>Status: <%= @invoice.status %></p>
 <p>Created On: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p>
