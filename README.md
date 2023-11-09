@@ -53,6 +53,7 @@ The features are as follows:
 - Merchant Invoices
 - Admin Dashboard
 - Admin Invoices
+- Admin Merchants
 
 Merchant Dashboard
 
@@ -63,7 +64,7 @@ The feature displays
 - number of transactions per customer
 - items ready to ship
 - item names
--corresponding invoice IDs
+- corresponding invoice IDs
 - links to invoice show pages
 
 Merchant Items
@@ -122,7 +123,7 @@ How this project can be modified
 - modifications of the user experience
 - html/css styling(craigslist..)
 - test: additional sad path testing
-- code refactorung: dry, testing, etc.
+- code refactoring: dry, testing, etc.
 - modify flash messages or add others for easier user experience
 
 
